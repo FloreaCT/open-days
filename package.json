@@ -3,8 +3,11 @@
         "dotenv": "^16.0.0",
         "ejs": "^3.1.6",
         "express": "^4.17.3",
+        "express-openid-connect": "^2.7.2",
         "mysql": "^2.18.1",
-        "nodemon": "^2.0.15"
+        "mysql2": "^2.3.3",
+        "nodemon": "^2.0.15",
+        "sequelize": "^6.17.0"
     },
     "name": "open-days",
     "description": "University project for Advance databases",
@@ -23,5 +26,9 @@
     "bugs": {
         "url": "https://github.com/FloreaCT/open-days/issues"
     },
-    "homepage": "https://github.com/FloreaCT/open-days#readme"
+    "homepage": "https://github.com/FloreaCT/open-days#readme",
+    "devDependencies": {
+        "@types/express": "^4.17.13",
+        "sequelize-cli": "^6.4.1"
+    }
 }
