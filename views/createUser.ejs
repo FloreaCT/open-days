@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create user</title>
+</head>
+
+<body>
+    <div>
+        <form method="POST" action="/create-new-user">
+            <input type="text" name="firstName" placeholder="First Name...">
+            <br>
+            <div><input type="text" name="lastName" placeholder="Last Name...">
+                <br>
+                <div><input type="email" name="email" placeholder="Your email address...">
+                    <br>
+                    <div><input type="password" name="password" placeholder="Password...">
+                        <br>
+                        <div><input type="text" name="address" placeholder="Your address...">
+                            <br>
+                            <div>
+
+                                <select name="roleID">
+                                <option value="1">Admin</option>
+                                <option value="2">Doctor</option>
+                                <option value="3">User</option>
+                            </select>
+                                <br>
+                                <button type="subimt">Save</button>
+        </form>
+        </div>
+</body>
+
+</html>
