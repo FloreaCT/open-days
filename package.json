@@ -11,16 +11,18 @@
     "version": "1.0.0",
     "main": "app.js",
     "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1"
-    },
-    "repository": {
-        "type": "git",
-        "url": "git+https://github.com/FloreaCT/open-days.git"
-    },
-    "author": "",
-    "license": "ISC",
-    "bugs": {
-        "url": "https://github.com/FloreaCT/open-days/issues"
-    },
-    "homepage": "https://github.com/FloreaCT/open-days#readme"
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "start": "node app.js"
+    }
+},
+"repository": {
+    "type": "git",
+    "url": "git+https://github.com/FloreaCT/open-days.git"
+},
+"author": "",
+"license": "ISC",
+"bugs": {
+    "url": "https://github.com/FloreaCT/open-days/issues"
+},
+"homepage": "https://github.com/FloreaCT/open-days#readme"
 }
