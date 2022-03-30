@@ -12,6 +12,6 @@ app.get('/', (req, res) => {
         res.render('index')
     })
     // Listen for requests
-app.listen(5000)
+app.listen(PORT)
 
 console.log(`I am live on port: ${PORT}`);
