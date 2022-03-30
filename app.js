@@ -1,4 +1,5 @@
 const express = require('express')
+const PORT = process.env.PORT || 5000;
 
 // Express app
 const app = express()
@@ -13,4 +14,4 @@ app.get('/', (req, res) => {
     // Listen for requests
 app.listen(5000)
 
-console.log('I am live on port 5000');
+console.log(`I am live on port: ${PORT}`);
