@@ -1,9 +1,9 @@
-var passport = require('passport')
-var passortLocal = require('passport-local')
-var loginService = require('../../services/loginService')
+const passport = require('passport')
+const passportLocal = require('passport-local')
+const loginService = require('../../services/loginService')
 
 
-let LocalStrategy = passortLocal.Strategy
+let LocalStrategy = passportLocal.Strategy
 
 // Initialize passport
 let initPassportLocal = () => {
@@ -39,8 +39,10 @@ passport.serializeUser((user, done) => {
     return done(null, user.id)
 })
 
-passport.deserializeUser((id, done) => {
-    loginService.findUserById(id).then(user => {
+passport.deserializeUser(async(id, done) => {
+    await loginService.findUserById(id).then(user => {
+        console.log("Run");
+        console.log(user);
         return done(null, user)
     }).catch(error => {
         console.log(err);

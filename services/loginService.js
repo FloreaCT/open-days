@@ -51,27 +51,9 @@ let findUserById = (idInput) => {
     })
 }
 
-let whatever = (idInput) => {
-    return new Promise(async(resolve, reject) => {
-        try {
-            let user = await db.User.findOne({
-                where: {
-                    id: idInput
-                }
-            })
-            if (!user) reject(` User not found by the id: ${idInput}`)
-            resolve(user)
-        } catch (err) {
-            reject(err)
-        }
-    })
-}
-
-
 
 module.exports = {
     findUserByEmail: findUserByEmail,
     comparePassword: comparePassword,
     findUserById: findUserById,
-    whatever: whatever
 }

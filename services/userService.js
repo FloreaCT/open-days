@@ -1,15 +1,14 @@
 //  const { response } = require("express");
-let db = require("../models")
-var bcrypt = require("bcryptjs")
+const db = require("../models")
+const bcrypt = require("bcryptjs")
 
 
-let createNewUser = (user) => {
+let createNewUser = (user, req, res) => {
     return new Promise(async(resolve, reject) => {
         try {
             // Checking if user or email already exists in the db
             // Return true if email exists in db
-
-            let isEmailExist = await checkEmailUser(user)
+            let isEmailExist = await checkEmailUser(user, req, res)
             if (isEmailExist) {
                 reject(`${user.email} is already in our database. <a href="/forgot-password">Recover lost password</a>`)
             } else {
@@ -31,7 +30,7 @@ let createNewUser = (user) => {
     })
 }
 
-let checkEmailUser = (userCheck) => {
+let checkEmailUser = (userCheck, req, res) => {
     return new Promise(async(resolve, reject) => {
         try {
             let currentUser = await db.User.findOne({
@@ -47,10 +46,11 @@ let checkEmailUser = (userCheck) => {
             }
         } catch (err) {
             // Displaying the error message to the user
+
             req.flash('errors')
             return res.redirect('/register')
         }
     })
 }
 
-module.exports = { createNewUser: createNewUser }
+module.exports = createNewUser

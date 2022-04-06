@@ -1,18 +1,19 @@
 const { validationResult } = require("express-validator")
-const { append } = require("express/lib/response")
 const userService = require("../services/userService")
-require('express-validator')
-var getHomepage = (req, res) => {
+
+
+let getHomepage = (req, res) => {
+
     return res.render('index')
 }
 
-var getNewUserPage = (req, res) => {
-    return res.render("createUser.ejs")
+let getProfilePage = (req, res) => {
+    return res.render("profile.ejs")
 }
 
-var createNewUser = async(req, res) => {
+let createNewUser = async(req, res) => {
     let user = req.body;
-    await userService.createNewUser(user);
+    await userService(user);
     return res.redirect("/")
 }
 
@@ -35,6 +36,11 @@ let getLoginPage = async(req, res) => {
     })
 }
 
+let getAdminPage = async(req, res) => {
+    return res.render("auth/login.ejs", {
+        errors: req.flash('errors'),
+    })
+}
 let handleRegister = async(req, res) => {
     // Keep old input
     let form = {
@@ -69,11 +75,15 @@ let handleRegister = async(req, res) => {
             confirmPassword: req.body.confirmPassword,
             createdAt: Date.now()
         };
-        await userService.createNewUser(user)
+
+        await userService(user, req, res)
+
         return res.redirect("/")
 
     } catch (err) {
+
         req.flash('errors', err)
+
         return res.render("auth/register.ejs", {
             errors: req.flash('errors'),
             form: form
@@ -84,9 +94,10 @@ let handleRegister = async(req, res) => {
 
 module.exports = {
     getHomepage: getHomepage,
-    getNewUserPage: getNewUserPage,
+    getProfilePage: getProfilePage,
     createNewUser: createNewUser,
     getRegisterPage: getRegisterPage,
     getLoginPage: getLoginPage,
     handleRegister: handleRegister,
+    getAdminPage: getAdminPage
 }

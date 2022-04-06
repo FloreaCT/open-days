@@ -1,21 +1,21 @@
 {
     "development": {
-        "username": "be080b26f8c432",
-        "password": "905caa8e",
-        "database": "heroku_c9b11e36dc12589",
-        "host": "eu-cdbr-west-02.cleardb.net",
+        "username": "FloreaCT",
+        "password": "qwer",
+        "database": "open_days",
+        "host": "localhost",
         "dialect": "mysql"
     },
     "test": {
-        "username": "root",
-        "password": null,
+        "username": "FloreaCT",
+        "password": "qwer",
         "database": "database_test",
         "host": "127.0.0.1",
         "dialect": "mysql"
     },
     "production": {
-        "username": "root",
-        "password": null,
+        "username": "Floreact",
+        "password": "qwer",
         "database": "database_production",
         "host": "127.0.0.1",
         "dialect": "mysql"

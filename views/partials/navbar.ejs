@@ -1,15 +1,20 @@
 <nav class="navbar">
     <div class="content">
         <div class="logo">
-            <a href="index.html">Open Days</a>
+            <a href="/">Open Days</a>
         </div>
         <ul class="menu-list">
             <div class="icon cancel-btn">
                 <i class="fas fa-times" aria-hidden="true"></i>
             </div>
             <li class="logo">
-                <a href="index.html" class=>Book an Open Day</a></li>
-            <li class="logo"><a href="/login">Login</a></li>
+                <a href="/" class=>Book an Open Day</a></li>
+            <% if(usera) { %>
+                <li class="logo"><a href="/logout">Logout</a></li>
+                <% } else { %>
+                    <li class="logo"><a href="/register">Register</a></li>
+                    <li class="logo"><a href="/login">Login</a></li>
+                    <% } %>
         </ul>
         </li>
         <div class="icon menu-btn">
