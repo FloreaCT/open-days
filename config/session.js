@@ -3,7 +3,6 @@ require('dotenv').config()
 const Sequelize = require("sequelize");
 const session = require("express-session");
 
-
 // initalize sequelize with session store
 const SequelizeStore = require("connect-session-sequelize")(session.Store);
 
@@ -38,6 +37,7 @@ const configSession = (app) => {
         })
     );
 }
+
 
 // Create db session
 sessionStore.sync()

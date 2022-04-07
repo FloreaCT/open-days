@@ -1,43 +1,81 @@
 'use strict';
+
 module.exports = {
-    async up(queryInterface, Sequelize) {
-        await queryInterface.createTable('Users', {
+    async up(queryInterface, DataTypes) {
+        await queryInterface.createTable('users', {
             id: {
                 allowNull: false,
                 autoIncrement: true,
                 primaryKey: true,
-                type: Sequelize.INTEGER
+                type: DataTypes.INTEGER
             },
             firstName: {
-                type: Sequelize.STRING
+                type: DataTypes.STRING,
+                allowNull: false,
+                validate: {
+                    notEmpty: true
+                }
+            },
+            uuid: {
+                type: DataTypes.UUID,
+                defaultValue: DataTypes.UUIDV4
             },
             lastName: {
-                type: Sequelize.STRING
+                type: DataTypes.STRING,
+                allowNull: false,
+                validate: {
+                    notEmpty: true
+                }
             },
             email: {
-                type: Sequelize.STRING
+                type: DataTypes.STRING,
+                allowNull: false,
+                validate: {
+                    notEmpty: true
+                }
             },
             password: {
-                type: Sequelize.STRING
+                type: DataTypes.STRING,
+                allowNull: false,
+                validate: {
+                    notEmpty: true
+                }
             },
-            address: {
-                type: Sequelize.STRING
+            city: {
+                type: DataTypes.STRING,
+                allowNull: false,
+                validate: {
+                    notEmpty: true
+                }
+            },
+            university: {
+                type: DataTypes.STRING,
+                allowNull: false,
+                validate: {
+                    notEmpty: true
+                },
+                defaultValue: "Not at university"
+            },
+            hasRole: {
+                type: DataTypes.INTEGER,
+                allowNull: false,
+                validate: {
+                    notEmpty: true
+                },
+                defaultValue: "1"
             },
             createdAt: {
                 allowNull: false,
-                type: Sequelize.JSON
+                type: DataTypes.DATE
             },
             updatedAt: {
-                allowNull: true,
-                type: Sequelize.JSON
-            },
-            deletedAt: {
-                allowNull: true,
-                type: Sequelize.JSON
+                allowNull: false,
+                type: DataTypes.DATE
             }
-        });
+        })
     },
-    async down(queryInterface, Sequelize) {
-        await queryInterface.dropTable('Users');
+    async down(queryInterface, DataTypes) {
+        await queryInterface.dropTable('users');
     }
-};
+
+}

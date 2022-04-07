@@ -1,4 +1,4 @@
-<nav class="navbar">
+<nav class="top_navbar">
     <div class="content">
         <div class="logo">
             <a href="/">Open Days</a>
@@ -9,7 +9,8 @@
             </div>
             <li class="logo">
                 <a href="/" class=>Book an Open Day</a></li>
-            <% if(usera) { %>
+            <% if(isAuth) { %>
+                <li class="logo"><a href="/profile">Profile</a></li>
                 <li class="logo"><a href="/logout">Logout</a></li>
                 <% } else { %>
                     <li class="logo"><a href="/register">Register</a></li>

@@ -80,7 +80,6 @@
 body {
     background-image: url(../images/leaves-g71a3adb7b_1920.png);
     background-color: #cccccc;
-    height: 500px;
     background-position: center;
     background-repeat: repeat;
     background-size: cover;
@@ -112,31 +111,34 @@ body {
     padding: 0 30px;
 }
 
-.navbar {
-    position: fixed;
+.top_navbar {
+    position: relative;
+    background: rgba(19, 109, 88, 0.5);
+    top: 0;
     width: 100%;
-    z-index: 2;
-    padding: 25px 0;
+    padding: 10px 0;
+    z-index: 1;
     transition: all 0.3s ease;
 }
 
-.navbar.sticky {
+.top_navbar.sticky {
     background: rgba(19, 109, 88, 0.7);
     padding: 10px 0;
     box-shadow: 0px 3px 5px 0px rgba(0, 0, 0, 0.1);
+    position: sticky;
 }
 
-.navbar.sticky li a:hover {
+.top_navbar.sticky li a:hover {
     color: rgb(207, 76, 63);
 }
 
-.navbar .content {
+.top_navbar .content {
     display: flex;
     align-items: center;
     justify-content: space-between;
 }
 
-.navbar .logo a {
+.top_navbar .logo a {
     color: #fff;
     font-family: 'Lobster', cursive;
     font-size: 2.5rem;
@@ -144,7 +146,7 @@ body {
     text-decoration: none;
 }
 
-.navbar .menu-list {
+.top_navbar .menu-list {
     display: inline-flex;
 }
 
@@ -167,10 +169,6 @@ body {
 
 .banner {
     background: url("/images/banner_uni.jpg") no-repeat;
-    height: 100vh;
-    background-size: cover;
-    background-position: center;
-    background-attachment: fixed;
 }
 
 .about {
@@ -228,7 +226,7 @@ body {
     .icon.hide {
         display: none;
     }
-    .navbar .menu-list {
+    .top_navbar .menu-list {
         position: fixed;
         height: 100vh;
         width: 100%;
@@ -241,24 +239,24 @@ body {
         background: #222;
         transition: all 0.3s ease;
     }
-    .navbar.show .menu-list {
+    .top_navbar.show .menu-list {
         left: 0%;
     }
-    .navbar .menu-list li {
+    .top_navbar .menu-list li {
         margin-top: 45px;
     }
-    .navbar .menu-list li a {
+    .top_navbar .menu-list li a {
         font-size: 23px;
         margin-left: -100%;
         transition: 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
     }
-    .navbar.show .menu-list li a {
+    .top_navbar.show .menu-list li a {
         margin-left: 0px;
     }
 }
 
 @media (max-width: 380px) {
-    .navbar .logo a {
+    .top_navbar .logo a {
         font-size: 27px;
     }
 }

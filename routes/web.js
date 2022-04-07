@@ -7,14 +7,11 @@ const passport = require('passport')
 // Initialize all web routes
 const router = express.Router();
 
-
-console.log();
 // Initialize passport
 initPassportLocal()
 
 let checkLoggedIn = (req, res, next) => {
     if (req.isAuthenticated()) {
-        console.log(req.isAuthenticated())
         return res.redirect("/")
     }
     next()
@@ -22,7 +19,6 @@ let checkLoggedIn = (req, res, next) => {
 
 let checkLoggedOut = (req, res, next) => {
     if (req.isAuthenticated() === false) {
-        console.log(req.isAuthenticated());
         return res.redirect("/")
     }
     next()
@@ -37,15 +33,14 @@ let postLogOut = (req, res) => {
 module.exports = {
     initAllWebRoute(app) {
         router.get("/", homepageController.getHomepage,
-            app.get("/", function(req, res) {
-                var usera = req.isAuthenticated()
-                console.log(app.locals.usera);
-                res.render('index', { usera })
-
+            app.get("/", function(req, res, query) {
+                var isAuth = req.isAuthenticated()
+                res.render('index', { isAuth: isAuth })
             }))
         router.get("/register", checkLoggedIn, homepageController.getRegisterPage)
         router.get("/login", checkLoggedIn, homepageController.getLoginPage)
         router.get("/profile", checkLoggedOut, homepageController.getProfilePage)
+        router.get("/forgot-password", checkLoggedIn, homepageController.getForgotPassword)
         router.get("/logout", function(req, res) {
             req.logout();
             req.session.destroy();
@@ -58,6 +53,7 @@ module.exports = {
             successFlash: true,
             failureFlash: true
         }))
+        router.post("/forgot-password", homepageController.forgotPassword)
         router.post("/create-new-user", homepageController.createNewUser)
         router.get("/logout", postLogOut)
 

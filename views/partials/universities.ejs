@@ -1,0 +1,9 @@
+<% if(user_id) { %>
+    <ul>
+        <% query.forEach((query) => {%>
+            <li>
+                <%= JSON.stringify(query) %>
+            </li>
+            <% }) %>
+    </ul>
+    <%  } %>

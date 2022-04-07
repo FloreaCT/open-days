@@ -41,8 +41,6 @@ passport.serializeUser((user, done) => {
 
 passport.deserializeUser(async(id, done) => {
     await loginService.findUserById(id).then(user => {
-        console.log("Run");
-        console.log(user);
         return done(null, user)
     }).catch(error => {
         console.log(err);

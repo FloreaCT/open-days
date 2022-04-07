@@ -1,9 +1,7 @@
-//  const { response } = require("express");
 const db = require("../models")
 const bcrypt = require("bcryptjs")
 
-
-let createNewUser = (user, req, res) => {
+let createUser = (user, req, res) => {
     return new Promise(async(resolve, reject) => {
         try {
             // Checking if user or email already exists in the db
@@ -40,6 +38,7 @@ let checkEmailUser = (userCheck, req, res) => {
             })
 
             if (currentUser) {
+
                 resolve(true)
             } else {
                 resolve(false)
@@ -53,4 +52,4 @@ let checkEmailUser = (userCheck, req, res) => {
     })
 }
 
-module.exports = createNewUser
+module.exports = { createUser: createUser, checkEmailUser: checkEmailUser }

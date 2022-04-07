@@ -7,7 +7,7 @@ const flash = require('connect-flash');
 const cookieParser = require('cookie-parser');
 const passport = require('passport');
 const configSession = require('./config/session');
-const mysql = require('mysql2')
+const { sequelize } = require('./models');
 const app = express()
 
 // Configuring server for cookies
@@ -33,37 +33,14 @@ app.use(passport.session())
 // Initializing all the web routes
 initWebRoutes.initAllWebRoute(app);
 
-const port = process.env.PORT || 3030;
-
-app.get("/", function(req, res) {
-    console.log(res);
-    res.render("index")
-
-});
-
-// app.use('/', function(req, res, next) {
-//         next();
-//     } 
 // Handle 404
 app.use(function(req, res) {
     res.status(404).send('Bruh... 404...');
 });
 
+const port = process.env.PORT || 3030;
 
-// let connection = mysql.createConnection({
-//     host: 'localhost',
-//     user: 'FloreaCT',
-//     password: 'qwer',
-//     database: 'open_days'
-// });
-// connection.connect(function(err) {
-//     if (err) {
-//         return console.error('error: ' + err.message);
-//     }
-
-//     console.log('Connected to the MySQL server.');
-// });
-
-app.listen(port, () => {
+app.listen(port, async() => {
+    await sequelize.authenticate()
     console.log(`The application is running on port number ${port}`);
 })

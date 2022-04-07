@@ -1,5 +1,6 @@
 'use strict';
 
+const { log } = require('console');
 const fs = require('fs');
 const path = require('path');
 const Sequelize = require('sequelize');
@@ -34,4 +35,21 @@ Object.keys(db).forEach(modelName => {
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 
-module.exports = db;
+
+
+// const query = sequelize.query("SELECT * FROM `events`", { type: sequelize.QueryTypes.SELECT })
+//     .then(function(events) {})
+
+
+// // My function
+// const myfunction = async function() {
+//     const query = sequelize.query("SELECT * FROM `events`", { type: sequelize.QueryTypes.SELECT })
+//     return query
+// }
+
+// // Start function
+// const start = async function() {
+//     const result = await myfunction();
+// }
+
+module.exports = db
