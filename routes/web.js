@@ -3,6 +3,7 @@ const homepageController = require("../controllers/homepageController")
 const auth = require("../validation/authValidation")
 const initPassportLocal = require('../controllers/passport/passportLocal')
 const passport = require('passport')
+const authController = require('../controllers/authController')
 
 // Initialize all web routes
 const router = express.Router();
@@ -10,37 +11,18 @@ const router = express.Router();
 // Initialize passport
 initPassportLocal()
 
-let checkLoggedIn = (req, res, next) => {
-    if (req.isAuthenticated()) {
-        return res.redirect("/")
-    }
-    next()
-}
-
-let checkLoggedOut = (req, res, next) => {
-    if (req.isAuthenticated() === false) {
-        return res.redirect("/")
-    }
-    next()
-}
-
-
-let postLogOut = (req, res) => {
-    req.logout();
-    res.redirect('/');
-}
-
 module.exports = {
     initAllWebRoute(app) {
         router.get("/", homepageController.getHomepage,
-            app.get("/", function(req, res, query) {
+            app.get("/", function(req, res) {
                 var isAuth = req.isAuthenticated()
                 res.render('index', { isAuth: isAuth })
             }))
-        router.get("/register", checkLoggedIn, homepageController.getRegisterPage)
-        router.get("/login", checkLoggedIn, homepageController.getLoginPage)
-        router.get("/profile", checkLoggedOut, homepageController.getProfilePage)
-        router.get("/forgot-password", checkLoggedIn, homepageController.getForgotPassword)
+        router.get("/register", authController.checkLoggedIn, homepageController.getRegisterPage)
+        router.get("/login", authController.checkLoggedIn, homepageController.getLoginPage)
+        router.get("/profile", authController.checkLoggedOut, homepageController.getProfilePage)
+        router.get("/book", authController.checkLoggedOut, homepageController.getEventsPage)
+        router.get("/forgot-password", authController.checkLoggedIn, homepageController.getForgotPassword)
         router.get("/logout", function(req, res) {
             req.logout();
             req.session.destroy();
@@ -55,7 +37,7 @@ module.exports = {
         }))
         router.post("/forgot-password", homepageController.forgotPassword)
         router.post("/create-new-user", homepageController.createNewUser)
-        router.get("/logout", postLogOut)
+        router.get("/logout", authController.postLogOut)
 
         return app.use("/", router)
     }

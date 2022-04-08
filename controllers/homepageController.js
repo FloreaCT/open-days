@@ -11,6 +11,10 @@ let getProfilePage = (req, res) => {
     return res.render("profile.ejs")
 }
 
+let getEventsPage = (req, res) => {
+    return res.render("book.ejs")
+}
+
 let createNewUser = async(req, res) => {
     let user = req.body;
     await userService(user);
@@ -135,5 +139,6 @@ module.exports = {
     handleRegister: handleRegister,
     getAdminPage: getAdminPage,
     forgotPassword: forgotPassword,
-    getForgotPassword: getForgotPassword
+    getForgotPassword: getForgotPassword,
+    getEventsPage: getEventsPage
 }

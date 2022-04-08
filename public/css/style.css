@@ -7,6 +7,16 @@
     font-family: 'Poppins', sans-serif;
 }
 
+.profile {
+    text-align: center;
+    font-size: 5rem;
+    margin: 25px 0 100px 0;
+}
+
+.footer {
+    text-align: center;
+}
+
 
 /* Login Page Start */
 
