@@ -4,12 +4,14 @@ const auth = require("../validation/authValidation")
 const initPassportLocal = require('../controllers/passport/passportLocal')
 const passport = require('passport')
 const authController = require('../controllers/authController')
-
-// Initialize all web routes
-const router = express.Router();
+const models = require('../models')
+const dataController = require('../controllers/dataController')
 
 // Initialize passport
 initPassportLocal()
+
+// Initialize all web routes
+const router = express.Router();
 
 module.exports = {
     initAllWebRoute(app) {
@@ -18,16 +20,20 @@ module.exports = {
                 var isAuth = req.isAuthenticated()
                 res.render('index', { isAuth: isAuth })
             }))
-        router.get("/register", authController.checkLoggedIn, homepageController.getRegisterPage)
-        router.get("/login", authController.checkLoggedIn, homepageController.getLoginPage)
-        router.get("/profile", authController.checkLoggedOut, homepageController.getProfilePage)
-        router.get("/book", authController.checkLoggedOut, homepageController.getEventsPage)
-        router.get("/forgot-password", authController.checkLoggedIn, homepageController.getForgotPassword)
+
+        router.get('/post_event', dataController.post_event)
+        router.get("/register", authController.checkLoggedOut, homepageController.getRegisterPage)
+        router.get("/login", authController.checkLoggedOut, homepageController.getLoginPage)
+        router.get("/profile", authController.checkLoggedIn, homepageController.getProfilePage)
+        router.get("/book", authController.checkLoggedIn, dataController.events)
+        router.get("/forgot-password", authController.checkLoggedOut, homepageController.getForgotPassword)
         router.get("/logout", function(req, res) {
             req.logout();
             req.session.destroy();
             res.redirect("/")
         })
+
+        router.post('/book', dataController.submbitInterest)
         router.post("/register", auth.validateRegister, homepageController.handleRegister)
         router.post("/login", passport.authenticate("local", {
             successRedirect: "/profile",
@@ -36,7 +42,6 @@ module.exports = {
             failureFlash: true
         }))
         router.post("/forgot-password", homepageController.forgotPassword)
-        router.post("/create-new-user", homepageController.createNewUser)
         router.get("/logout", authController.postLogOut)
 
         return app.use("/", router)

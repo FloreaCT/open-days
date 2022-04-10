@@ -50,10 +50,7 @@ module.exports = {
             },
             university: {
                 type: DataTypes.STRING,
-                allowNull: false,
-                validate: {
-                    notEmpty: true
-                },
+                allowNull: true,
                 defaultValue: "Not at university"
             },
             hasRole: {

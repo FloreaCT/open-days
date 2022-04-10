@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include('partials/headers.ejs') %>
+        <title>Register for a Open Day</title>
+</head>
+
+<body>
+    <% if(isAuth) { %>
+        <%- include('partials/navProfile.ejs') %>
+            <% } else { %>
+                <%- include('partials/navbar.ejs') %>
+                    <% } %>
+
+
+                        <div class="polaroid">
+                            <div class="container">
+                                <h1>University College Birmingham</h1>
+                            </div>
+                            <div>
+                                <img src="/images/ucb.jpg" alt="ucb" class="image">
+                            </div>
+                            <div class="title">Responsive Sticky Navigation Menu Bar on Scroll using HTML CSS & JavaScript</div>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quo impedit atque consequatur! Iusto distinctio temporibus repellendus labore odit adipisci harum ipsa beatae natus, eum eius, hic aperiam odio! Quasi molestias magnam
+                                illo voluptatem iusto ipsam blanditiis, tempore cumque reiciendis quaerat vero tenetur, sequi dolores libero voluptas vitae voluptate placeat dolorum modi ipsa nisi repellat facilis aliquam asperiores. Aut nam repellat
+                                harum quas saepe dolorum voluptates ratione, itaque consectetur explicabo a facilis rem mollitia maxime repudiandae fuga reprehenderit, odio cum incidunt labore molestiae quis non perferendis ipsam. Illum, in, deserunt.
+                                Ipsa.
+                            </p>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Impedit hic excepturi nobis id, eos dolor libero, nam assumenda, at culpa quos perspiciatis ratione ea modi! Natus sapiente a, explicabo sit quisquam eligendi esse provident
+                                eos enim doloremque blanditiis aut placeat veniam, libero nostrum quae. Ipsam, iste reprehenderit minima accusantium illo dolorem recusandae, ipsa autem quidem reiciendis a mollitia sit tenetur.</p>
+                            <div class="container">
+                                <form method="post" action="/submit_interest"><button type="submit" class="submit_button"> Register your interest</button></form>
+                            </div>
+                        </div>
+                        <div class="polaroid">
+                            <div class="container">
+                                <h1>University College Birmingham</h1>
+                            </div>
+                            <div>
+                                <img src="/images/banner.jpg" alt="ucb" class="image">
+                            </div>
+                            <div class="title">Responsive Sticky Navigation Menu Bar on Scroll using HTML CSS & JavaScript</div>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quo impedit atque consequatur! Iusto distinctio temporibus repellendus labore odit adipisci harum ipsa beatae natus, eum eius, hic aperiam odio! Quasi molestias magnam
+                                illo voluptatem iusto ipsam blanditiis, tempore cumque reiciendis quaerat vero tenetur, sequi dolores libero voluptas vitae voluptate placeat dolorum modi ipsa nisi repellat facilis aliquam asperiores. Aut nam repellat
+                                harum quas saepe dolorum voluptates ratione, itaque consectetur explicabo a facilis rem mollitia maxime repudiandae fuga reprehenderit, odio cum incidunt labore molestiae quis non perferendis ipsam. Illum, in, deserunt.
+                                Ipsa.
+                            </p>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Impedit hic excepturi nobis id, eos dolor libero, nam assumenda, at culpa quos perspiciatis ratione ea modi! Natus sapiente a, explicabo sit quisquam eligendi esse provident
+                                eos enim doloremque blanditiis aut placeat veniam, libero nostrum quae. Ipsam, iste reprehenderit minima accusantium illo dolorem recusandae, ipsa autem quidem reiciendis a mollitia sit tenetur.</p>
+                            <div class="container">
+                                <form method="post" action="/submit_interest"><button type="submit" class="submit_button"> Register your interest</button></form>
+                            </div>
+                        </div>
+
+                        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous"></script>
+                        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
+</body>
+
+</html>
+
+
+<table>
+    <thead>
+        <tr>
+            <th scope="col"></th>
+            <th scope="col">Organizer</th>
+            <th scope="col">Description</th>
+            <th scope="col">Image</th>
+            <th scope="col"></th>
+            <th scope="col"></th>
+        </tr>
+    </thead>
+
+    <tbody id="Table-data">
+        <%if (typeof data != 'undefined'){ %>
+            <% data.forEach((item)=>{ %>
+                <div class="events_table">
+                    <h4>Description:
+                        <%= item.description %>
+                    </h4>
+                </div>
+                <div class="events_table">
+                    <img src="<%= item.image %>" alt="Recipe image" />
+                </div>
+                <br><br><br>
+                </h4>
+                <%})%>
+                    <% } else{ %>
+                        <tr>
+                            <td colspan="6">No Bookings Found</td>
+
+                        </tr>
+                        <% } %>
+    </tbody>
+</table>

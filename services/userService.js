@@ -4,21 +4,31 @@ const bcrypt = require("bcryptjs")
 let createUser = (user, req, res) => {
     return new Promise(async(resolve, reject) => {
         try {
+
             // Checking if user or email already exists in the db
             // Return true if email exists in db
             let isEmailExist = await checkEmailUser(user, req, res)
             if (isEmailExist) {
                 reject(`${user.email} is already in our database. <a href="/forgot-password">Recover lost password</a>`)
-            } else {
+            } else if ([1, 'institute', 'administrator'].includes(user.hasRole)) {
+
                 // Hash the password
                 const salt = bcrypt.genSaltSync(10)
                 user.password = await bcrypt.hashSync(user.password.toString(), salt)
 
-                // Update the password
+                // Adjust role
+                if (user.hasRole === 'institute') {
+                    user.hasRole = "2"
+                } else if (user.hasRole === 'administrator') {
+                    user.hasRole = "3"
+                }
 
                 // Create user
                 await db.User.create(user);
                 resolve("Done!")
+            } else {
+
+                reject('Invalid code! Please enter the correct code!')
             }
 
         } catch (err) {

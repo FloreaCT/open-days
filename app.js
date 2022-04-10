@@ -1,7 +1,7 @@
 require('dotenv').config()
 const express = require('express');
 const configViewEngine = require('./config/viewEngine')
-const initWebRoutes = require('./routes/web')
+const { initAllWebRoute } = require('./routes/web')
 const bodyParser = require('body-parser');
 const flash = require('connect-flash');
 const cookieParser = require('cookie-parser');
@@ -9,6 +9,7 @@ const passport = require('passport');
 const configSession = require('./config/session');
 const { sequelize } = require('./models');
 const app = express()
+
 
 // Configuring server for cookies
 app.use(cookieParser('secret'))
@@ -24,14 +25,14 @@ app.use(bodyParser.urlencoded({ extended: true }))
 configViewEngine.configViewEngine(app);
 
 // Config app session
-configSession(app)
+configSession.configSession(app)
 
 //Configure passport
 app.use(passport.initialize())
 app.use(passport.session())
 
 // Initializing all the web routes
-initWebRoutes.initAllWebRoute(app);
+initAllWebRoute(app);
 
 // Handle 404
 app.use(function(req, res) {
@@ -39,6 +40,7 @@ app.use(function(req, res) {
 });
 
 const port = process.env.PORT || 3030;
+
 
 app.listen(port, async() => {
     await sequelize.authenticate()

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <h1> Your bookings </h1>
+    <% mybookings.forEach((item)=>{ %>
+
+        <div class="polaroid">
+            <div class="container">
+                <h4>
+                    <%- item.organizerid  %>
+                </h4>
+            </div>
+
+            <div>
+                <img src="<%- item.image %>" alt="ucb" class="image">
+            </div>
+            <div class="title">
+                <%- item.description %>
+            </div>
+            <div class="container">
+                <form method="post" action="/book">
+                    <input type="hidden" name="uniID" id="uniID" value="<%= item.organizerid %>">
+                    <button type="submit" class="submit_button"> Register your interest</button>
+                </form>
+            </div>
+        </div>
+
+        <%})%>
+</body>
+
+</html>

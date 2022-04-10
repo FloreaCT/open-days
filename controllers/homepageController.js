@@ -1,5 +1,5 @@
 const { validationResult } = require("express-validator")
-const { checkEmailUser, createUser } = require("../services/userService")
+const { createUser } = require("../services/userService")
 const { findUserByEmail } = require("../services/loginService")
 
 
@@ -25,7 +25,12 @@ let getRegisterPage = async(req, res) => {
     let form = {
         firstName: req.body.firstName,
         lastName: req.body.lastName,
-        email: req.body.email
+        city: req.body.city,
+        email: req.body.email,
+        university: req.body.university,
+        password: req.body.password,
+        confirmPassword: req.body.confirmPassword,
+        hasRole: req.body.hasRole
     }
 
     return res.render("auth/register.ejs", {
@@ -82,7 +87,12 @@ let handleRegister = async(req, res) => {
     let form = {
         firstName: req.body.firstName,
         lastName: req.body.lastName,
-        email: req.body.email
+        city: req.body.city,
+        email: req.body.email,
+        university: req.body.university,
+        password: req.body.password,
+        confirmPassword: req.body.confirmPassword,
+        hasRole: req.body.hasRole
     }
 
     // Check user inputs
@@ -103,14 +113,19 @@ let handleRegister = async(req, res) => {
 
     // Create user
     try {
+        var hasRole = req.body.hasRole
+        if (!hasRole) {
+            hasRole = 1
+        }
         let user = {
             firstName: req.body.firstName,
             lastName: req.body.lastName,
-            email: req.body.email,
-            password: req.body.password,
             city: req.body.city,
+            email: req.body.email,
             university: req.body.university,
+            password: req.body.password,
             confirmPassword: req.body.confirmPassword,
+            hasRole: hasRole,
             createdAt: Date.now()
         };
 

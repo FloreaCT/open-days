@@ -2,6 +2,25 @@ const db = require('../models')
 const bcrypt = require('bcryptjs')
 
 
+let handleLogin = (email, password) => {
+    return new Promise(async(resolve, reject) => {
+        //check email is exist or not
+        let user = await findUserByEmail(email);
+        if (user) {
+            //compare password
+            await bcrypt.compare(password, user.password).then((isMatch) => {
+                if (isMatch) {
+                    resolve(true);
+                } else {
+                    reject(`The password that you've entered is incorrect`);
+                }
+            });
+        } else {
+            reject(`This user email "${email}" doesn't exist`);
+        }
+    });
+};
+
 let findUserByEmail = (emailInput) => {
     return new Promise(async(resolve, reject) => {
         try {
@@ -56,4 +75,5 @@ module.exports = {
     findUserByEmail: findUserByEmail,
     comparePassword: comparePassword,
     findUserById: findUserById,
+    handleLogin: handleLogin
 }

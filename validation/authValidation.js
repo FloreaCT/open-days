@@ -11,10 +11,16 @@ let validateRegister = [
         return value === req.body.password
 
     })
+]
 
+let validateLogin = [
+    check.check("email", "Invalid email").isEmail().trim(),
 
+    check.check("password", "Invalid password")
+    .not().isEmpty()
 ]
 
 module.exports = {
-    validateRegister: validateRegister
+    validateRegister: validateRegister,
+    validateLogin: validateLogin
 }

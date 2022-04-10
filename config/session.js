@@ -14,7 +14,7 @@ const myDatabase = new Sequelize(
         host: process.env.DB_HOST,
         logging: false,
         dialect: "mysql",
-        storage: "./session.mysql",
+        storage: "./session.mysql"
     });
 
 const sessionStore = new SequelizeStore({
@@ -42,4 +42,4 @@ const configSession = (app) => {
 // Create db session
 sessionStore.sync()
 
-module.exports = configSession
+module.exports = { configSession: configSession, myDatabase: myDatabase }

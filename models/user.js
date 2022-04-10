@@ -56,29 +56,19 @@ module.exports = (sequelize, DataTypes) => {
         city: {
             type: DataTypes.STRING,
             allowNull: false,
-            validate: {
-                notEmpty: true
-            }
         },
         university: {
             type: DataTypes.STRING,
-            allowNull: false,
-            validate: {
-                notEmpty: true
-            },
+            allowNull: true,
             defaultValue: "Not at university"
         },
         hasRole: {
             type: DataTypes.INTEGER,
             allowNull: false,
-            validate: {
-                notEmpty: true
-            },
             references: {
                 model: 'Role',
                 key: 'id'
-            },
-            defaultValue: "1"
+            }
         }
 
     }, {

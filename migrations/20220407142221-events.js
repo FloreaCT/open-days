@@ -25,7 +25,7 @@ module.exports = {
                 }
             },
             image: {
-                type: DataTypes.BLOB,
+                type: DataTypes.BLOB('medium'),
                 allowNull: false,
                 validate: {
                     notEmpty: true

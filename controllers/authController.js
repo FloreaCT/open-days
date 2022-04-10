@@ -1,5 +1,4 @@
 const { validationResult } = require("express-validator")
-const passport = require('passport')
 const loginService = require("../services/loginService")
 
 let getPageLogin = (req, res) => {
@@ -30,14 +29,14 @@ let handleLogin = async(req, res) => {
 };
 
 let checkLoggedIn = (req, res, next) => {
-    if (!req.isAutehnticated()) {
+    if (!req.isAuthenticated()) {
         return res.redirect('/login')
     }
     next()
 }
 
 let checkLoggedOut = (req, res, next) => {
-    if (req.isAuthenticated() === false) {
+    if (req.isAuthenticated()) {
         return res.redirect("/")
     }
     next()
@@ -52,5 +51,7 @@ let postLogOut = (req, res) => {
 module.exports = {
     checkLoggedIn: checkLoggedIn,
     checkLoggedOut: checkLoggedOut,
-    postLogOut: postLogOut
+    postLogOut: postLogOut,
+    handleLogin: handleLogin,
+    getPageLogin: getPageLogin
 }
