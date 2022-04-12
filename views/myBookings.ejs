@@ -2,38 +2,45 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <%- include('partials/headers.ejs') %>
+        <link href="css/auth.css" rel="stylesheet">
+        <title>User bookings</title>
 </head>
 
 <body>
-    <h1> Your bookings </h1>
-    <% mybookings.forEach((item)=>{ %>
+    <div class="top_navbar center_text">
+        <a href="/profile">Back to Profile</a>
+    </div>
 
-        <div class="polaroid">
-            <div class="container">
-                <h4>
-                    <%- item.organizerid  %>
-                </h4>
-            </div>
+    <div><br><br><br>
+        <h1 class="center_text"> Your attending to: </h1>
+        <h1>
+        </h1>
+        <% if (mybookings[0] != 'undefined') {%>
+            <% mybookings[0].forEach((item)=>{ %>
 
-            <div>
-                <img src="<%- item.image %>" alt="ucb" class="image">
-            </div>
-            <div class="title">
-                <%- item.description %>
-            </div>
-            <div class="container">
-                <form method="post" action="/book">
-                    <input type="hidden" name="uniID" id="uniID" value="<%= item.organizerid %>">
-                    <button type="submit" class="submit_button"> Register your interest</button>
-                </form>
-            </div>
-        </div>
+                <div class="polaroid">
+                    <div class="container">
+                        <h4>
+                            EVENT
+                            <%- item.description  %>
+                        </h4>
+                    </div>
 
-        <%})%>
+                    <div>
+                        <h4>
+                            USER
+                            <%- item.userId %>
+                        </h4>
+                    </div>
+                    <div class="title">
+
+                    </div>
+                    <p>-----------------------------------------------------------</p>
+
+                </div>
+
+                <%})}%>
 </body>
 
 </html>

@@ -24,17 +24,18 @@ let submit = (submit, req, res) => {
 let checkInterest = (submit, req, res) => {
     return new Promise(async(resolve, reject) => {
             try {
-
                 let currentInterest = await db.Attenders_to.findOne({
                     where: {
-                        userid: submit.userid,
-                        event_id: submit.event_id
+                        userId: submit.userId,
+                        eventId: submit.eventId
                     }
                 })
 
                 if (currentInterest) {
+
                     resolve(true)
                 } else {
+
                     resolve(false)
                 }
             } catch (err) {

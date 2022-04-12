@@ -10,13 +10,6 @@ module.exports = {
                 primaryKey: true,
                 type: DataTypes.INTEGER
             },
-            organizerid: {
-                type: DataTypes.INTEGER,
-                allowNull: false,
-                validate: {
-                    notEmpty: true
-                }
-            },
             description: {
                 type: DataTypes.TEXT,
                 allowNull: false,
@@ -24,14 +17,51 @@ module.exports = {
                     notEmpty: true
                 }
             },
-            image: {
-                type: DataTypes.BLOB('medium'),
+            title: {
+                type: DataTypes.TEXT,
                 allowNull: false,
                 validate: {
                     notEmpty: true
                 }
             },
+            begin_at: {
+                type: DataTypes.DATE,
+                allowNull: false,
+                validate: {
+                    notEmpty: true
+                }
 
+            },
+            ends_at: {
+                type: DataTypes.DATE,
+                allowNull: false,
+                validate: {
+                    notEmpty: true
+                }
+            },
+            image: {
+                type: DataTypes.TEXT,
+                allowNull: false,
+                validate: {
+                    notEmpty: true
+                }
+            },
+            userId: {
+                type: DataTypes.INTEGER,
+                allowNull: false,
+                references: {
+                    model: 'Users',
+                    key: 'id'
+                },
+                createdAt: {
+                    allowNull: false,
+                    type: DataTypes.DATE
+                },
+                updatedAt: {
+                    allowNull: false,
+                    type: DataTypes.DATE
+                }
+            },
             createdAt: {
                 allowNull: false,
                 type: DataTypes.DATE
@@ -40,11 +70,12 @@ module.exports = {
                 allowNull: false,
                 type: DataTypes.DATE
             }
-        });
+        })
+
     },
 
     async down(queryInterface, DataTypes) {
         await queryInterface.dropTable('events');
 
     }
-};
+}

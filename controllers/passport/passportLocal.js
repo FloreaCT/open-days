@@ -24,7 +24,7 @@ let initPassportLocal = () => {
                             return done(null, false, req.flash("errors", message))
                         }
                     }).catch(err => {
-                        console.log(err);
+
                         return done(null, false, req.flash("errors", err))
                     })
             } catch (error) {
@@ -43,7 +43,7 @@ passport.deserializeUser(async(id, done) => {
     await loginService.findUserById(id).then(user => {
         return done(null, user)
     }).catch(error => {
-        console.log(err);
+
         return done(error, null)
     })
 })

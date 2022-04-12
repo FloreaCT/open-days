@@ -19,10 +19,12 @@
                             <div class="polaroid">
                                 <div class="container">
                                     <h4>
-                                        <%- item.organizerid  %>
+                                        <%- item.id  %>
                                     </h4>
                                 </div>
-
+                                <h4>
+                                    <%- item.eventId %>
+                                </h4>
                                 <div>
                                     <img src="<%- item.image %>" alt="ucb" class="image">
                                 </div>
@@ -31,7 +33,7 @@
                                 </div>
                                 <div class="container">
                                     <form method="post" action="/book">
-                                        <input type="hidden" name="uniID" id="uniID" value="<%= item.organizerid %>">
+                                        <input type="hidden" name="eventId" id="eventId" value="<%= item.id %>">
                                         <button type="submit" class="submit_button"> Register your interest</button>
                                     </form>
                                 </div>

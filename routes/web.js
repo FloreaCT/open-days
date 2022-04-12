@@ -27,6 +27,8 @@ module.exports = {
         router.get("/profile", authController.checkLoggedIn, homepageController.getProfilePage)
         router.get("/book", authController.checkLoggedIn, dataController.events)
         router.get("/forgot-password", authController.checkLoggedOut, homepageController.getForgotPassword)
+        router.get("/myBookings", authController.checkLoggedIn, dataController.getMyBookings)
+        router.get("/addEvent", authController.checkLoggedIn, dataController.getAddEvent)
         router.get("/logout", function(req, res) {
             req.logout();
             req.session.destroy();
@@ -34,6 +36,7 @@ module.exports = {
         })
 
         router.post('/book', dataController.submbitInterest)
+        router.post("/addEvent", authController.checkLoggedIn, dataController.addEvent)
         router.post("/register", auth.validateRegister, homepageController.handleRegister)
         router.post("/login", passport.authenticate("local", {
             successRedirect: "/profile",
@@ -41,6 +44,7 @@ module.exports = {
             successFlash: true,
             failureFlash: true
         }))
+        router.post('/addEvent', dataController.addEvent)
         router.post("/forgot-password", homepageController.forgotPassword)
         router.get("/logout", authController.postLogOut)
 

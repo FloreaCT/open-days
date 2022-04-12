@@ -23,6 +23,9 @@ let createUser = (user, req, res) => {
                     user.hasRole = "3"
                 }
 
+                if (!user.university) {
+                    user.university = "Not at University"
+                }
                 // Create user
                 await db.User.create(user);
                 resolve("Done!")

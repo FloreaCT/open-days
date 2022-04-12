@@ -50,8 +50,7 @@ module.exports = {
             },
             university: {
                 type: DataTypes.STRING,
-                allowNull: true,
-                defaultValue: "Not at university"
+                defaultValue: "Not at University"
             },
             hasRole: {
                 type: DataTypes.INTEGER,
@@ -59,7 +58,11 @@ module.exports = {
                 validate: {
                     notEmpty: true
                 },
-                defaultValue: "1"
+                defaultValue: "1",
+                references: {
+                    model: 'Roles',
+                    key: 'id'
+                }
             },
             createdAt: {
                 allowNull: false,

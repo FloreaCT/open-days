@@ -22,11 +22,11 @@ module.exports = {
                 allowNull: false,
                 type: DataTypes.DATE
             },
-            // updatedAt: {
-            //     allowNull: false,
-            //     type: DataTypes.DATE
-            // }
-        }).then(function() { queryInterface.sequelize.query("INSERT INTO roles(role, createdAt) VALUES ('User', NOW()),('Organizer',NOW()),('Administrator',NOW())") })
+            updatedAt: {
+                allowNull: false,
+                type: DataTypes.DATE
+            }
+        }).then(function() { queryInterface.sequelize.query("INSERT INTO roles(role, createdAt, updatedAt) VALUES ('User', NOW(), NOW()),('Organizer',NOW(), NOW()),('Administrator',NOW(),NOW())") })
 
     },
 

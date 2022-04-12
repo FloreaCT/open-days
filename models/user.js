@@ -1,19 +1,9 @@
-'use strict';
 const {
     Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
 
     class User extends Model {
-        /**
-         * Helper method for defining associations.
-         * This method is not a part of Sequelize lifecycle.
-         * The `models/index` file will call this method automatically.
-         */
-        static associate({ Role }) {
-            // define association here
-            this.hasOne(Role)
-        }
         toJSON() {
             return {...this.get(), id: undefined }
         }
@@ -58,31 +48,41 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: false,
         },
         university: {
-            type: DataTypes.STRING,
-            allowNull: true,
-            defaultValue: "Not at university"
+            type: DataTypes.STRING
         },
-        hasRole: {
-            type: DataTypes.INTEGER,
-            allowNull: false,
-            references: {
-                model: 'Role',
-                key: 'id'
-            }
-        }
+
+        // hasRole: {
+        //     type: DataTypes.INTEGER,
+        //     allowNull: false,
+        //     references: {
+        //         model: 'Roles',
+        //         key: 'id'
+        //     }
+        // }
 
     }, {
         sequelize,
         modelName: 'User',
+
     });
 
-    // User.hasOne(attenders_to); // This adds documentId attribute to attenders_to
-    // User.belongsTo(attenders_to, {
-    //     as: 'currentUser',
-    //     foreignKey: 'currentUserId',
-    //     constraints: false,
-    //     allowNull: false
-    // }); // This adds currentUserId attribute to document
+    User.associate = (models) => {
+
+        User.hasOne(models.Role, {
+                as: "role",
+                foreignKey: "userId"
+            }),
+            User.hasOne(models.Event, {
+                as: 'event',
+                foreignKey: 'userId'
+            }),
+
+            User.hasMany(models.Attenders_to, {
+                as: 'attenders',
+                foreignKey: 'userId'
+            })
+    }
+
 
     return User
 };

@@ -1,7 +1,9 @@
 const models = require('../models')
 const { submit } = require('../services/submitService')
+const { addAEvent } = require('../services/addEventService')
 const { validationResult } = require("express-validator")
-const { application } = require('express')
+const db = require('../models')
+
 
 
 const post_event = function(req, res) {
@@ -23,34 +25,28 @@ const events = function(req, res) {
 const oneEvent = function(req, res) {
     var isAuth = req.isAuthenticated()
     models.Event.findOne({
-        where: { organizerid: req.user.id }
+        where: { userId: req.user.id }
     }).then(event => {
         res.render('book', { event: event })
     })
 }
 
-const getMyBookings = function(res, req) {
-    models.Event.findAll({
-        where: { userid: res.userid },
-        include: [{
-            model: User,
-            where: { userid: res.userid }
-        }]
-    }).then(mybookings => {
-        res.render('myBookings', { isAuth: isAuth, mybookings: mybookings })
-    })
+const getMyBookings = async function(req, res) {
+    var isAuth = req.isAuthenticated()
+    query = await db.sequelize.query(`SELECT description, image FROM events  INNER JOIN attenders_to on attenders_to.eventId = events.id INNER JOIN users on attenders_to.userId = users.id where users.id = ${req.user.id};`)
+    return res.render('myBookings', { isAuth: isAuth, mybookings: query })
 }
 
 let submbitInterest = async(req, res) => {
 
     // Register user to database
     try {
+
         let user = {
-            userid: req.user.id,
-            event_id: req.body.uniID,
+            userId: req.user.id,
+            eventId: req.body.eventId,
             createdAt: Date.now()
         };
-
         await submit(user, req, res)
 
         return res.redirect("/book")
@@ -61,6 +57,83 @@ let submbitInterest = async(req, res) => {
 }
 
 
+let getAddEvent = async function(req, res) {
+    let form = {
+        title: req.body.title,
+        description: req.body.description,
+        image: req.body.image,
+        begin_at: req.body.begin_at,
+        ends_at: req.body.ends_at,
+        userId: req.user.id
+
+    }
+    var isAuth = req.isAuthenticated()
+    return res.render('addEvent.ejs', {
+        isAuth: isAuth,
+        errors: req.flash('errors'),
+        form: form
+    })
+}
+
+
+
+let addEvent = async(req, res) => {
+    // Keep old input
+
+    let form = {
+        title: req.body.title,
+        description: req.body.description,
+        image: req.body.image,
+        begin_at: req.body.begin_at,
+        ends_at: req.body.ends_at,
+        userId: req.user.id
+
+    }
+
+    // Check user inputs
+    // Create empty array to save error 
+    let errorsArr = []
+    let validationError = validationResult(req)
+    if (!validationError.isEmpty()) {
+        var errors = Object.values(validationError.mapped())
+        errors.forEach((item) => {
+            errorsArr.push(item.msg)
+        })
+        req.flash("errors", errorsArr)
+        return res.render("addEvent.ejs", {
+            errors: req.flash('errors'),
+            form: form
+        })
+    }
+
+    // Create event
+    try {
+
+        let user = {
+            title: req.body.title,
+            description: req.body.description,
+            image: req.body.image,
+            begin_at: req.body.begin_at,
+            ends_at: req.body.ends_at,
+            userId: req.user.id,
+            createdAt: Date.now()
+        };
+
+        await addAEvent(user, req, res)
+        return res.redirect("/addEvent")
+
+    } catch (err) {
+
+        req.flash('errors', err)
+
+        return res.render("addEvent.ejs", {
+            errors: req.flash('errors'),
+            form: form
+        })
+    }
+
+}
+
 
 
 
@@ -70,5 +143,7 @@ module.exports = {
     oneEvent: oneEvent,
     post_event: post_event,
     submbitInterest: submbitInterest,
-    getMyBookings: getMyBookings
+    getMyBookings: getMyBookings,
+    addEvent: addEvent,
+    getAddEvent: getAddEvent
 }

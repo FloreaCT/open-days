@@ -30,6 +30,18 @@
     margin: auto;
 }
 
+.center_text a {
+    color: white;
+    font-family: 'Lobster', cursive;
+    text-align: center;
+    font-size: 3rem;
+}
+
+.center_text a:hover {
+    color: rgb(207, 76, 63);
+    text-decoration: none;
+}
+
 
 /* Login Page Start */
 

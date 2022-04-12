@@ -10,7 +10,7 @@ module.exports = {
                 primaryKey: true,
                 type: DataTypes.INTEGER
             },
-            event_id: {
+            eventId: {
                 type: DataTypes.INTEGER,
                 allowNull: false,
                 validate: {
@@ -20,13 +20,21 @@ module.exports = {
                 allowNull: false,
                 validate: {
                     notEmpty: true
+                },
+                references: {
+                    model: 'Events',
+                    key: 'id'
                 }
             },
-            userid: {
+            userId: {
                 type: DataTypes.INTEGER,
                 allowNull: false,
                 validate: {
                     notEmpty: true
+                },
+                references: {
+                    model: 'Users',
+                    key: 'id'
                 }
             },
             createdAt: {

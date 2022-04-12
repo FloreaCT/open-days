@@ -6,22 +6,13 @@ module.exports = (sequelize, DataTypes) => {
 
 
     class Attenders_to extends Model {
-        /**
-         * Helper method for defining associations.
-         * This method is not a part of Sequelize lifecycle.
-         * The `models/index` file will call this method automatically.
-         */
-        static associate({ User, Event }) {
-            // define association here
-            this.belongsTo(User, { foreignKey: 'userId' })
-        }
         toJSON() {
             return {...this.get(), id: undefined }
         }
     }
 
     Attenders_to.init({
-        event_id: {
+        eventId: {
             type: DataTypes.INTEGER,
             allowNull: false,
             validate: {
@@ -36,14 +27,14 @@ module.exports = (sequelize, DataTypes) => {
                 notEmpty: true
             }
         },
-        userid: {
+        userId: {
             type: DataTypes.INTEGER,
             allowNull: false,
             validate: {
                 notEmpty: true
             },
             references: {
-                model: 'User',
+                model: 'Users',
                 key: 'id'
             }
         }
@@ -54,13 +45,17 @@ module.exports = (sequelize, DataTypes) => {
     });
 
 
-    // User.hasOne(attenders_to); // This adds documentId attribute to attenders_to
-    // User.belongsTo(attenders_to, {
-    //     as: 'currentUser',
-    //     foreignKey: 'currentUserId',
-    //     constraints: false,
-    //     allowNull: false
-    // }); // This adds currentUserId attribute to document
+    Attenders_to.associations = (models) => {
+        Attenders_to.belongsTo(models.User, {
+                as: 'user',
+                foreignKey: 'userId'
+            }),
+            Attenders_to.hasOne(models.Event, {
+                as: 'event',
+                foreignKey: 'eventId'
+            })
+    }
+
 
     return Attenders_to
 };
