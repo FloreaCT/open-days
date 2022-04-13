@@ -37,7 +37,7 @@ initAllWebRoute(app);
 
 // Handle 404
 app.use(function(req, res) {
-    res.status(404).send('Bruh... 404...');
+    res.status(404).render('404');
 });
 
 const port = process.env.PORT || 3030;

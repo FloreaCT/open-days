@@ -46,7 +46,6 @@ module.exports = {
         router.get("/myBookings", authController.checkLoggedIn, dataController.getMyBookings)
         router.get("/myEvents", authController.checkLoggedIn, (authController.checkInstitute, dataController.getMyEvents))
         router.get("/addEvent", authController.checkLoggedIn, (authController.checkInstitute, dataController.getAddEvent))
-        router.get("/adminPage", authController.checkLoggedIn, (homepageController.getAdminPage, authController.checkRole))
         router.get("/logout", function(req, res) {
             req.logout();
             req.session.destroy();
@@ -59,16 +58,12 @@ module.exports = {
         router.post("/removeBooking", (upload.upload, dataController.removeBooking))
         router.post("/register", auth.validateRegister, homepageController.handleRegister)
         router.post("/login", passport.authenticate('local', {
-            failureRedirect: '/login'
-        }), (req, res) => {
-            if (req.user.roleId === 3) {
-                res.render('adminPage');
-            }
-            if (req.user.roleId != 3) {
-                res.redirect('/profile');
-            }
+            successRedirect: "/",
+            failureRedirect: "/login",
+            successFlash: true,
+            failureFlash: true
+        }))
 
-        })
 
         router.post("/upload", upload.single('image'), (req, res) => {
             if (!req.file) {
