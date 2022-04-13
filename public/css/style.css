@@ -9,12 +9,23 @@
 
 .profile {
     text-align: center;
-    font-size: 5rem;
+    font-size: 4rem;
     margin: 25px 0 100px 0;
 }
 
 .footer {
     text-align: center;
+    position: fixed;
+    padding: 10px 10px 0px 10px;
+    bottom: 0;
+    width: 100%;
+    height: 40px;
+    background: rgba(19, 109, 88, 0.5);
+}
+
+.foot {
+    color: white;
+    font-weight: 600;
 }
 
 .events_table {
@@ -30,16 +41,33 @@
     margin: auto;
 }
 
+.center_text {
+    color: white;
+    font-family: 'Lobster', cursive;
+    text-align: center;
+    font-size: 3rem;
+    display: block;
+}
+
 .center_text a {
     color: white;
     font-family: 'Lobster', cursive;
     text-align: center;
     font-size: 3rem;
+    display: block;
 }
 
 .center_text a:hover {
     color: rgb(207, 76, 63);
     text-decoration: none;
+    text-align: center;
+}
+
+.eventContainer {
+    text-align: center;
+    max-width: 100vh;
+    margin: 5vh auto auto auto;
+    padding: 10px 2vh 0 2vh;
 }
 
 
@@ -112,13 +140,20 @@
 
 /* Login Page End */
 
+html,
 body {
+    height: 100%;
+    margin: 0;
     background-image: url(../images/leaves-g71a3adb7b_1920.png);
     background-color: #cccccc;
     background-position: center;
     background-repeat: repeat;
     background-size: cover;
-    position: relative;
+}
+
+.wrapper {
+    min-height: 100%;
+    margin-bottom: -50px;
 }
 
 

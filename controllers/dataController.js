@@ -16,9 +16,9 @@ const post_event = function(req, res) {
 }
 
 const events = function(req, res) {
-    var isAuth = req.isAuthenticated()
+    var user = req.user
     models.Event.findAll().then(events => {
-        res.render('book', { isAuth: isAuth, data: events })
+        res.render('book', { user: user, data: events })
     })
 }
 
@@ -33,7 +33,7 @@ const oneEvent = function(req, res) {
 
 const getMyBookings = async function(req, res) {
     var isAuth = req.isAuthenticated()
-    query = await db.sequelize.query(`SELECT description, image FROM events  INNER JOIN attenders_to on attenders_to.eventId = events.id INNER JOIN users on attenders_to.userId = users.id where users.id = ${req.user.id};`)
+    query = await db.sequelize.query(`SELECT * FROM events  INNER JOIN attenders_to on attenders_to.eventId = events.id INNER JOIN users on attenders_to.userId = users.id where users.id = ${req.user.id};`)
     return res.render('myBookings', { isAuth: isAuth, mybookings: query })
 }
 
@@ -49,19 +49,53 @@ let submbitInterest = async(req, res) => {
         };
         await submit(user, req, res)
 
-        return res.redirect("/book")
+        return res.write(`<script>window.alert("Registration successful! See you soon!");window.location="/book";</script>`)
 
     } catch (err) {
         return res.write(`<script>window.alert("You have already registered to that event!");window.location="/book";</script>`)
     }
 }
 
+let deleteEvent = function(req, res) {
+
+    models.Event.findOne({
+        where: { userId: req.user.id }
+    }).then(event => {
+        event.destroy()
+        res.write(`<script>window.alert("Event has been successfully deleted!");window.location="/myEvents";</script>`)
+    })
+}
+
+let removeBooking = function(req, res) {
+    models.Attenders_to.findOne({
+        where: { eventId: req.body.remove, userId: req.user.id }
+    }).then(booking => {
+        booking.destroy()
+        res.write(`<script>window.alert("Booking has been successfully removed!");window.location="/myBookings";</script>`)
+    })
+}
+
+let getMyEvents = function(req, res) {
+    let isAuth = req.isAuthenticated()
+    models.Event.findOne({
+        where: { userId: req.user.id }
+    }).then(event => {
+        if (event === null) {
+            event = false
+            res.render('../views/auth/myEvents.ejs', { event: event, isAuth: isAuth })
+        }
+        res.render('../views/auth/myEvents.ejs', { event: event, isAuth: isAuth })
+
+    }).catch(function(err) {
+        console.log(err);
+    });
+
+}
 
 let getAddEvent = async function(req, res) {
     let form = {
         title: req.body.title,
         description: req.body.description,
-        image: req.body.image,
         begin_at: req.body.begin_at,
         ends_at: req.body.ends_at,
         userId: req.user.id
@@ -79,11 +113,9 @@ let getAddEvent = async function(req, res) {
 
 let addEvent = async(req, res) => {
     // Keep old input
-
     let form = {
         title: req.body.title,
         description: req.body.description,
-        image: req.body.image,
         begin_at: req.body.begin_at,
         ends_at: req.body.ends_at,
         userId: req.user.id
@@ -112,7 +144,6 @@ let addEvent = async(req, res) => {
         let user = {
             title: req.body.title,
             description: req.body.description,
-            image: req.body.image,
             begin_at: req.body.begin_at,
             ends_at: req.body.ends_at,
             userId: req.user.id,
@@ -120,7 +151,7 @@ let addEvent = async(req, res) => {
         };
 
         await addAEvent(user, req, res)
-        return res.redirect("/addEvent")
+        return res.redirect("/myEvents")
 
     } catch (err) {
 
@@ -145,5 +176,8 @@ module.exports = {
     submbitInterest: submbitInterest,
     getMyBookings: getMyBookings,
     addEvent: addEvent,
-    getAddEvent: getAddEvent
+    getAddEvent: getAddEvent,
+    getMyEvents: getMyEvents,
+    deleteEvent: deleteEvent,
+    removeBooking: removeBooking
 }

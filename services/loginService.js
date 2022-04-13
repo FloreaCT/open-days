@@ -30,7 +30,7 @@ let findUserByEmail = (emailInput) => {
                 }
             })
             if (!user)
-                reject(`We can't find a user with ${emailInput} email addresss.`)
+                reject(`We can't find a user with ${emailInput} email addresss. <a href="/register">Register account</a>`)
 
             resolve(user)
         } catch (e) {

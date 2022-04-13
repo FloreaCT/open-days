@@ -52,7 +52,7 @@ module.exports = {
                 type: DataTypes.STRING,
                 defaultValue: "Not at University"
             },
-            hasRole: {
+            roleId: {
                 type: DataTypes.INTEGER,
                 allowNull: false,
                 validate: {

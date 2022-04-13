@@ -25,7 +25,7 @@
         </div>
         <form method="post" action="/addEvent" id="form">
 
-            <div class="container">
+            <div class="container top_navbar">
                 <fieldset>
                     <legend>
                         <h1>Add a new event</h1>
@@ -40,10 +40,7 @@
                         <textarea class="form-control" name="description" id="description" value="<%= form.description %>" id="form" required>
                             </textarea>
                     </div>
-                    <div class="group-input">
-                        <label for="image">Upload Banner: (<span style="color: red">*</span>)</label>
-                        <input type="file" name="image" id="image" value="<%= form.image %>" required>
-                    </div>
+
                     <div class="group-input">
                         <label for="begin_at">Choose event start time: (<span style="color: red">*</span>)</label>
                         <input type="datetime-local" name="begin_at" id="begin_at" value="<% form.begin_at%>" required>

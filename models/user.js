@@ -51,14 +51,15 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING
         },
 
-        // hasRole: {
-        //     type: DataTypes.INTEGER,
-        //     allowNull: false,
-        //     references: {
-        //         model: 'Roles',
-        //         key: 'id'
-        //     }
-        // }
+        roleId: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+            references: {
+                model: 'Roles',
+                key: 'id'
+            },
+            defaultValue: "1"
+        }
 
     }, {
         sequelize,
@@ -74,12 +75,14 @@ module.exports = (sequelize, DataTypes) => {
             }),
             User.hasOne(models.Event, {
                 as: 'event',
-                foreignKey: 'userId'
+                foreignKey: 'userId',
+                onDelete: 'cascad'
             }),
 
             User.hasMany(models.Attenders_to, {
                 as: 'attenders',
-                foreignKey: 'userId'
+                foreignKey: 'userId',
+                onDelete: 'cascade'
             })
     }
 

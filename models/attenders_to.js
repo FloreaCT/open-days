@@ -20,7 +20,8 @@ module.exports = (sequelize, DataTypes) => {
             },
             references: {
                 model: 'Events',
-                key: 'id'
+                key: 'id',
+                onDelete: 'cascade'
             },
             allowNull: false,
             validate: {
@@ -35,7 +36,8 @@ module.exports = (sequelize, DataTypes) => {
             },
             references: {
                 model: 'Users',
-                key: 'id'
+                key: 'id',
+                onDelete: 'cascade',
             }
         }
     }, {
@@ -48,11 +50,15 @@ module.exports = (sequelize, DataTypes) => {
     Attenders_to.associations = (models) => {
         Attenders_to.belongsTo(models.User, {
                 as: 'user',
-                foreignKey: 'userId'
+                foreignKey: 'userId',
+                onDelete: 'cascade',
+                onUpdate: 'cascade'
             }),
-            Attenders_to.hasOne(models.Event, {
+            Attenders_to.belongsTo(models.Event, {
                 as: 'event',
-                foreignKey: 'eventId'
+                foreignKey: 'eventId',
+                onDelete: 'cascade',
+                onUpdate: 'cascade'
             })
     }
 

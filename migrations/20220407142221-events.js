@@ -41,10 +41,8 @@ module.exports = {
             },
             image: {
                 type: DataTypes.TEXT,
-                allowNull: false,
-                validate: {
-                    notEmpty: true
-                }
+                defaultValue: "/images/banner_uni.jpg"
+
             },
             userId: {
                 type: DataTypes.INTEGER,
@@ -53,14 +51,8 @@ module.exports = {
                     model: 'Users',
                     key: 'id'
                 },
-                createdAt: {
-                    allowNull: false,
-                    type: DataTypes.DATE
-                },
-                updatedAt: {
-                    allowNull: false,
-                    type: DataTypes.DATE
-                }
+                onDelete: 'cascade',
+                onUpdate: 'cascade'
             },
             createdAt: {
                 allowNull: false,

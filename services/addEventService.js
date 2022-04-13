@@ -5,14 +5,12 @@ let addAEvent = (event, req, res) => {
         try {
             // Checking if user or email already exists in the db
             // Return true if email exists in db
-
             let doesEventExists = await eventExists(event, req, res)
             if (doesEventExists) {
                 reject(`You can have only 1 event.`)
-
             } else {
-                // Create event
 
+                // Create event
                 await db.Event.create(event);
                 resolve("Done!")
             }

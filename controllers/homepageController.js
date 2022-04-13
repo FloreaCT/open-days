@@ -4,11 +4,18 @@ const { findUserByEmail } = require("../services/loginService")
 
 
 let getHomepage = (req, res) => {
-    return res.render('index')
+    if (!req.user) {
+        var user = false
+        res.render('index', { user: user })
+    } else {
+        var user = req.user
+        return res.render('index', { user: user })
+    }
 }
 
 let getProfilePage = (req, res) => {
-    return res.render("profile.ejs")
+    let user = req.user
+    return res.render("profile.ejs", { user: user })
 }
 
 let getEventsPage = (req, res) => {
@@ -30,7 +37,7 @@ let getRegisterPage = async(req, res) => {
         university: req.body.university,
         password: req.body.password,
         confirmPassword: req.body.confirmPassword,
-        hasRole: req.body.hasRole
+        roleId: req.body.roleId
     }
 
     return res.render("auth/register.ejs", {
@@ -41,18 +48,18 @@ let getRegisterPage = async(req, res) => {
 
 let getLoginPage = async(req, res) => {
     return res.render("auth/login.ejs", {
-        errors: req.flash('errors'),
+        errors: req.flash('errors')
     })
 }
 
 let getAdminPage = async(req, res) => {
-    return res.render("auth/admin.ejs", {
+    return res.render("adminPage.ejs", {
         errors: req.flash('errors'),
     })
 }
 
 let getForgotPassword = async(req, res) => {
-    return res.render("auth/forgot-password.ejs", {
+    return res.render("auth/forgotPassword.ejs", {
         errors: req.flash('errors'),
     })
 }
@@ -70,11 +77,11 @@ let forgotPassword = async(req, res) => {
                 `<script>window.alert("Reset password email has been sent to ${req.body.email}");window.location="/";</script>`
             );
         } else {
-            return res.redirect("/forgot-password")
+            return res.redirect("/forgotPassword")
         }
     } catch (err) {
         req.flash('errors', err)
-        return res.render("auth/forgot-password.ejs", {
+        return res.render("auth/forgotPassword.ejs", {
             errors: req.flash('errors'),
             form: form
         })
@@ -92,7 +99,7 @@ let handleRegister = async(req, res) => {
         university: req.body.university,
         password: req.body.password,
         confirmPassword: req.body.confirmPassword,
-        hasRole: req.body.hasRole
+        roleId: req.body.roleId
     }
 
     // Check user inputs
@@ -113,9 +120,9 @@ let handleRegister = async(req, res) => {
 
     // Create user
     try {
-        var hasRole = req.body.hasRole
-        if (!hasRole) {
-            hasRole = 1
+        var roleId = req.body.roleId
+        if (!roleId) {
+            roleId = 1
         }
         let user = {
             firstName: req.body.firstName,
@@ -125,7 +132,7 @@ let handleRegister = async(req, res) => {
             university: req.body.university,
             password: req.body.password,
             confirmPassword: req.body.confirmPassword,
-            hasRole: hasRole,
+            roleId: roleId,
             createdAt: Date.now()
         };
 

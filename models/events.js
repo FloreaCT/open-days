@@ -38,10 +38,7 @@ module.exports = (sequelize, DataTypes) => {
         },
         image: {
             type: DataTypes.TEXT,
-            allowNull: false,
-            validate: {
-                notEmpty: true
-            }
+            defaultValue: "/images/banner_uni.jpg"
         },
         userId: {
             type: DataTypes.INTEGER,
@@ -49,7 +46,9 @@ module.exports = (sequelize, DataTypes) => {
             references: {
                 model: 'Users',
                 key: 'id'
-            }
+            },
+            onDelete: 'cascade',
+            onUpdate: 'cascade'
         }
     }, {
         sequelize,
@@ -62,13 +61,12 @@ module.exports = (sequelize, DataTypes) => {
         Event.belongsTo(models.User, {
                 as: "user",
                 foreignKey: "userId"
+
             }),
 
-            Event.belongsToMany(models.Attenders_to, {
+            Event.hasMany(models.Attenders_to, {
                 as: 'attenders',
                 foreignKey: 'eventId',
-                through: 'userId',
-                onDelete: 'cascade'
             })
     }
 

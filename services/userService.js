@@ -9,18 +9,18 @@ let createUser = (user, req, res) => {
             // Return true if email exists in db
             let isEmailExist = await checkEmailUser(user, req, res)
             if (isEmailExist) {
-                reject(`${user.email} is already in our database. <a href="/forgot-password">Recover lost password</a>`)
-            } else if ([1, 'institute', 'administrator'].includes(user.hasRole)) {
+                reject(`${user.email} is already in our database. <a href="/forgotPassword">Recover lost password</a>`)
+            } else if ([1, 'institute', 'administrator'].includes(user.roleId)) {
 
                 // Hash the password
                 const salt = bcrypt.genSaltSync(10)
                 user.password = await bcrypt.hashSync(user.password.toString(), salt)
 
                 // Adjust role
-                if (user.hasRole === 'institute') {
-                    user.hasRole = "2"
-                } else if (user.hasRole === 'administrator') {
-                    user.hasRole = "3"
+                if (user.roleId === 'institute') {
+                    user.roleId = "2"
+                } else if (user.roleId === 'administrator') {
+                    user.roleId = "3"
                 }
 
                 if (!user.university) {

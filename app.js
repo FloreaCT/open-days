@@ -8,6 +8,7 @@ const cookieParser = require('cookie-parser');
 const passport = require('passport');
 const configSession = require('./config/session');
 const { sequelize } = require('./models');
+
 const app = express()
 
 

@@ -12,35 +12,68 @@
         <a href="/profile">Back to Profile</a>
     </div>
 
-    <div><br><br><br>
-        <h1 class="center_text"> Your attending to: </h1>
-        <h1>
-        </h1>
-        <% if (mybookings[0] != 'undefined') {%>
-            <% mybookings[0].forEach((item)=>{ %>
+    <div class="eventContainer">
+        <h1> Your attending to: </h1>
+    </div>
+    <% if (mybookings[0] != 'undefined') {%>
+        <% mybookings[0].forEach((item)=>{ %>
 
-                <div class="polaroid">
-                    <div class="container">
-                        <h4>
-                            EVENT
-                            <%- item.description  %>
-                        </h4>
-                    </div>
-
-                    <div>
-                        <h4>
-                            USER
-                            <%- item.userId %>
-                        </h4>
-                    </div>
-                    <div class="title">
-
-                    </div>
-                    <p>-----------------------------------------------------------</p>
+            <div class="polaroid">
+                <div class="eventContainer">
+                    <br>
+                    <h2>
+                        <%- item.title  %>
+                    </h2>
 
                 </div>
+                <div>
+                    <img src="<%- item.image %>" alt="ucb" class="image">
+                </div>
+                <br>
+                <div class="eventContainer">
 
-                <%})}%>
+                    <h2>
+                        <%- item.description%>
+                    </h2>
+                </div>
+                <table class="table table-striped table-bordered table-hover table-success" style="max-width: 40%; margin: 50px auto 0 auto">
+                    <thead>
+                        <tr>
+                            <th scope="col" style="text-align: center;" colspan="2">Event timings</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row">Event starts at</th>
+                            <td>
+                                <%- item.begin_at%>
+                            </td>
+
+                        </tr>
+                        <tr>
+                            <th scope="row">Event ends at</th>
+                            <td>
+                                <%- item.ends_at%>
+                            </td>
+
+                        </tr>
+
+                    </tbody>
+                </table>
+                <form method="post" action="/removeBooking" class="center_text">
+
+                    <fieldset>
+                        <div class="group-input">
+                            <label for="remove"></label>
+                            <input type="hidden" name="remove" id="remove" value="<%- item.eventId %>">
+                        </div>
+                        <button type="submit">Remove this booking</button>
+                    </fieldset>
+                </form>
+            </div>
+
+
+            <%})}%>
 </body>
 
 </html>

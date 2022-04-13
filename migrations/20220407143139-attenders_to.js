@@ -16,15 +16,13 @@ module.exports = {
                 validate: {
                     notEmpty: true
                 },
-
-                allowNull: false,
-                validate: {
-                    notEmpty: true
-                },
                 references: {
                     model: 'Events',
-                    key: 'id'
-                }
+                    key: 'id',
+
+                },
+                onDelete: 'cascade',
+                onUpdate: 'cascade'
             },
             userId: {
                 type: DataTypes.INTEGER,
@@ -34,8 +32,11 @@ module.exports = {
                 },
                 references: {
                     model: 'Users',
-                    key: 'id'
-                }
+                    key: 'id',
+
+                },
+                onDelete: 'cascade',
+                onUpdate: 'cascade'
             },
             createdAt: {
                 allowNull: false,
