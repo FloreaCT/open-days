@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include('partials/headers.ejs') %>
+        <link href="css/auth.css" rel="stylesheet">
+        <title>Manage events</title>
+</head>
+
+<body>
+    <%- include('partials/navAdmin.ejs') %>
+        <br>
+
+        <div>
+            <h1 style="text-align: center;"> ALL EVENTS</h1>
+        </div>
+        <br><br>
+
+        <% events.forEach((item)=>{ %>
+
+            <table class="table top_navbar" style="max-width: 40%; margin: 50px auto 0 auto">
+
+                <tbody>
+                    <tr>
+                        <tr>
+                            <th scope="col" style="text-align: center;" colspan="2">Description</th>
+                        </tr>
+                    </tr>
+                    <tr>
+                        <th scope="row">Title</th>
+                        <td>
+                            <%- item.title %>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <tr>
+                            <th scope="col" style="text-align: center;" colspan="2">Event timings</th>
+                        </tr>
+                    </tr>
+
+                    <tr>
+                        <th scope="row">Event starts at</th>
+                        <td>
+                            <%- item.begin_at%>
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <th scope="row">Event ends at</th>
+                        <td>
+                            <%- item.ends_at%>
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <form method="post" action="/deleteEvent" class="center_text">
+
+                                <fieldset>
+                                    <div class="group-input">
+                                        <label for="id"></label>
+                                        <input type="hidden" name="id" id="id" value="<%- item.id %>">
+                                    </div>
+                                    <button type="submit">Delete this event</button>
+                                </fieldset>
+                            </form>
+                        </td>
+                    </tr>
+                </tbody>
+
+            </table>
+
+            <%})%>
+</body>
+
+</html>

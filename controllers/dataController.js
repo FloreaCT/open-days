@@ -2,7 +2,10 @@ const models = require('../models')
 const { submit } = require('../services/submitService')
 const { addAEvent } = require('../services/addEventService')
 const { validationResult } = require("express-validator")
-const db = require('../models')
+const db = require("../config/session")
+const Sequelize = require('sequelize');
+const auth = require('../controllers/authController')
+const Op = Sequelize.Op;
 
 
 
@@ -33,7 +36,7 @@ const oneEvent = function(req, res) {
 
 const getMyBookings = async function(req, res) {
     var isAuth = req.isAuthenticated()
-    query = await db.sequelize.query(`SELECT * FROM events  INNER JOIN attenders_to on attenders_to.eventId = events.id INNER JOIN users on attenders_to.userId = users.id where users.id = ${req.user.id};`)
+    query = await db.myDatabase.query(`SELECT * FROM events  INNER JOIN attenders_to on attenders_to.eventId = events.id INNER JOIN users on attenders_to.userId = users.id where users.id = ${req.user.id};`)
     return res.render('myBookings', { isAuth: isAuth, mybookings: query })
 }
 
@@ -57,13 +60,21 @@ let submbitInterest = async(req, res) => {
 }
 
 let deleteEvent = function(req, res) {
-
-    models.Event.findOne({
-        where: { userId: req.user.id }
-    }).then(event => {
-        event.destroy()
-        res.write(`<script>window.alert("Event has been successfully deleted!");window.location="/myEvents";</script>`)
-    })
+    if (req.user.roleId === 3) {
+        models.Event.findOne({
+            where: { id: req.body.id }
+        }).then(event => {
+            event.destroy()
+            res.write(`<script>window.alert("Event has been successfully deleted!");window.location="/manageEvents";</script>`)
+        })
+    } else {
+        models.Event.findOne({
+            where: { userId: req.user.id }
+        }).then(event => {
+            event.destroy()
+            res.write(`<script>window.alert("Event has been successfully deleted!");window.location="/myEvents";</script>`)
+        })
+    }
 }
 
 let removeBooking = function(req, res) {
@@ -73,6 +84,83 @@ let removeBooking = function(req, res) {
         booking.destroy()
         res.write(`<script>window.alert("Booking has been successfully removed!");window.location="/myBookings";</script>`)
     })
+}
+
+let getAllEvents = function(req, res, next) {
+    var admin = auth.checkRole(req, res, next)
+    if (admin == 3) {
+        models.Event.findAll().then(events => {
+            res.render('../views/manageEvents.ejs', { events: events })
+        })
+    }
+}
+
+let getAllUsers = function(req, res) {
+    models.User.findAll().then(users => {
+            global.globalUsers = users
+            res.render('../views/manageUsers.ejs', { users: users, alert: null })
+        }
+
+    )
+}
+
+let getAllAttenders = function(req, res) {
+    var admin = auth.checkRole(req, res)
+    if (admin == 3) {
+        models.Attenders_to.findAll({
+
+
+
+        }).then(users => {
+
+                global.globalUsers = users
+                res.render('../views/manageAttenders.ejs', { users: users, alert: null })
+            }
+
+        )
+    }
+}
+
+let findUser = function(req, res) {
+    let search = req.body.search
+    models.User.findAll({
+        where: {
+            [Op.or]: [
+                Sequelize.where(Sequelize.fn('lower', Sequelize.col('firstName')), {
+                    [Op.like]: `%${search}%`,
+                }),
+                Sequelize.where(Sequelize.fn('lower', Sequelize.col('lastName')), {
+                    [Op.like]: `%${search}%`,
+                }),
+            ],
+        }
+    }).then(users => {
+        res.render('../views/manageUsers.ejs', { users, users, alert: null })
+    })
+}
+
+let editUser = function(req, res) {
+    let sql = `UPDATE users SET firstName = "${req.body.firstName}", lastName ="${req.body.lastName}", email ="${req.body.email}", city = "${req.body.city}", university = "${req.body.university}" WHERE id = "${req.body.id}"`;
+    db.myDatabase.query(sql, function(err) {
+        if (err) {
+            console.log(err)
+        };
+    });
+
+    res.write(`<script>window.alert("User updated successfully!");window.location="/manageUsers";</script>`)
+}
+
+let deleteUser = function(req, res) {
+
+    if (req.body.id.toString() === req.user.id.toString()) {
+        return res.render('manageUsers', { users: globalUsers, alert: "You cannot delete yourself" });
+    } else {
+        let sql = `DELETE FROM users WHERE id = ${req.body.id}`
+        db.myDatabase.query(sql, function(err, data) {
+            if (err) { console.log(err); };
+        });
+        res.redirect('/manageUsers');
+    }
 }
 
 let getMyEvents = function(req, res) {
@@ -179,5 +267,11 @@ module.exports = {
     getAddEvent: getAddEvent,
     getMyEvents: getMyEvents,
     deleteEvent: deleteEvent,
-    removeBooking: removeBooking
+    removeBooking: removeBooking,
+    getAllEvents: getAllEvents,
+    getAllUsers: getAllUsers,
+    getAllAttenders: getAllAttenders,
+    findUser: findUser,
+    editUser: editUser,
+    deleteUser: deleteUser
 }

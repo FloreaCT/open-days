@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include('partials/headers.ejs') %>
+        <link href="css/auth.css" rel="stylesheet">
+        <title>Manage users</title>
+</head>
+
+<body>
+    <%- include('partials/navAdmin.ejs') %>
+        <br>
+
+        <div>
+            <h1 style="text-align: center;"> ALL USERS</h1>
+        </div>
+        <br><br>
+        <div class="polaroid">
+            <%if (alert) {%>
+
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <strong>You cannot delete yourself!</strong>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+
+                    <%}%>
+                </div>
+        </div>
+        <div class="polaroid">
+            <div class="top_navbar" style="padding-left: 10px;">
+
+                <form class="d-flex" method="post" action="/findUser">
+                    <input class="form-control me-2" type="search" placeholder="Search for a user" name="search" aria-label="Search">
+                    <button class="btn btn-outline-light" type="submit">Search</button>
+                </form>
+            </div>
+        </div>
+        <table class="table table-bordered top_navbar">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">First Name</th>
+                    <th scope="col">Last Name</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">City</th>
+                    <th scope="col">University</th>
+                    <th scope="col">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% users.forEach((item)=>{ %>
+                    <form action="<%='/users/edit'%>" method="POST">
+                        <tr>
+                            <th scope="row">
+                                <%-item.id%>
+                                    <input type="hidden" name="id" value="<%=item.id%>">
+                            </th>
+                            <td>
+                                <input type="text" name="firstName" value="<%=item.firstName%>">
+                            </td>
+                            <td>
+                                <input type="text" name="lastName" value="<%=item.lastName%>">
+                            </td>
+                            <td>
+                                <input type="text" name="email" value="<%=item.email%>">
+                            </td>
+                            <td>
+                                <input type="text" name="city" value="<%=item.city%>">
+                            </td>
+                            <td>
+                                <input type="text" name="university" value="<%=item.university%>">
+                            </td>
+                            <td>
+
+                                <button type="submit" value="submit"><i class="bi bi-eye"></i> Edit</button>
+                                <button type="submit" value="Delete" formaction="/users/delete"><i class="bi bi-person-x"></i> Delete</button>
+
+                            </td>
+                        </tr>
+                    </form>
+                    <%})%>
+            </tbody>
+
+        </table>
+
+
+
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+</body>
+
+</html>

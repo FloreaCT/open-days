@@ -58,7 +58,6 @@ let submbitInterest = async(req, res) => {
 
         await submit(user, req, res)
 
-        return res.redirect(`/profile?e=' + encodeURIComponent('Your event has been added to the database')`)
 
     } catch (err) {
         return res.write(`<script>window.alert("You have already registered to that event!");window.location="/book";</script>`)

@@ -37,15 +37,17 @@ const router = express.Router();
 module.exports = {
     initAllWebRoute(app) {
         router.get("/", homepageController.getHomepage, authController.checkRole)
-        router.get('/post_event', dataController.post_event)
         router.get("/register", authController.checkLoggedOut, homepageController.getRegisterPage)
         router.get("/login", authController.checkLoggedOut, homepageController.getLoginPage)
         router.get("/profile", authController.checkLoggedIn, homepageController.getProfilePage)
-        router.get("/book", authController.checkLoggedIn, dataController.events)
+        router.get("/book", authController.checkLoggedIn, authController.checkUser, dataController.events)
         router.get("/forgotPassword", authController.checkLoggedOut, homepageController.getForgotPassword)
         router.get("/myBookings", authController.checkLoggedIn, dataController.getMyBookings)
-        router.get("/myEvents", authController.checkLoggedIn, (authController.checkInstitute, dataController.getMyEvents))
-        router.get("/addEvent", authController.checkLoggedIn, (authController.checkInstitute, dataController.getAddEvent))
+        router.get("/myEvents", authController.checkLoggedIn, dataController.getMyEvents)
+        router.get("/addEvent", authController.checkLoggedIn, dataController.getAddEvent)
+        router.get("/manageEvents", authController.checkLoggedIn, dataController.getAllEvents)
+        router.get("/manageUsers", authController.checkLoggedIn, dataController.getAllUsers)
+        router.get("/manageAttenders", authController.checkLoggedIn, dataController.getAllAttenders)
         router.get("/logout", function(req, res) {
             req.logout();
             req.session.destroy();
@@ -54,16 +56,20 @@ module.exports = {
 
         router.post('/book', dataController.submbitInterest)
         router.post("/addEvent", (upload.upload, dataController.addEvent))
-        router.post("/deleteEvent", (upload.upload, dataController.deleteEvent))
-        router.post("/removeBooking", (upload.upload, dataController.removeBooking))
+        router.post("/deleteEvent", dataController.deleteEvent)
+        router.post("/removeBooking", dataController.removeBooking)
         router.post("/register", auth.validateRegister, homepageController.handleRegister)
+        router.post("/addEvent", dataController.addEvent)
+        router.post("/forgotPassword", homepageController.forgotPassword)
+        router.post("/findUser", dataController.findUser)
+        router.post('/users/edit/', dataController.editUser);
+        router.post("/users/delete/", dataController.deleteUser)
         router.post("/login", passport.authenticate('local', {
             successRedirect: "/",
             failureRedirect: "/login",
             successFlash: true,
             failureFlash: true
         }))
-
 
         router.post("/upload", upload.single('image'), (req, res) => {
             if (!req.file) {
@@ -79,11 +85,10 @@ module.exports = {
                 res.redirect('/myEvents')
             }
         })
-        router.post("/addEvent", dataController.addEvent)
-        router.post("/forgotPassword", homepageController.forgotPassword)
+
+
 
         // router.get("/logout", authController.postLogOut)
-
         return app.use("/", router)
     }
 }

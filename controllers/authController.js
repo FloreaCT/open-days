@@ -50,9 +50,11 @@ let postLogOut = (req, res) => {
 
 let checkRole = (req, res, next) => {
     if (req.user.roleId == 3) {
-        res.redirect("/adminPage")
+        return 3
     } else {
-        res.redirect("/")
+        // TODO: RENDER
+        next()
+            // res.redirect("/")
     }
 }
 
@@ -63,6 +65,12 @@ let checkInstitute = (req, res, next) => {
     next()
 }
 
+let checkUser = (req, res, next) => {
+    if (!req.user.roleId == 1) {
+        return res.redirect('/profile')
+    }
+    next()
+}
 module.exports = {
     checkLoggedIn: checkLoggedIn,
     checkLoggedOut: checkLoggedOut,
@@ -70,5 +78,6 @@ module.exports = {
     handleLogin: handleLogin,
     getPageLogin: getPageLogin,
     checkRole: checkRole,
-    checkInstitute: checkInstitute
+    checkInstitute: checkInstitute,
+    checkUser: checkUser
 }
