@@ -35,6 +35,7 @@ let getRegisterPage = async(req, res) => {
         city: req.body.city,
         email: req.body.email,
         university: req.body.university,
+        phone: req.body.phone,
         password: req.body.password,
         confirmPassword: req.body.confirmPassword,
         roleId: req.body.roleId
@@ -97,6 +98,7 @@ let handleRegister = async(req, res) => {
         city: req.body.city,
         email: req.body.email,
         university: req.body.university,
+        phone: req.body.phone,
         password: req.body.password,
         confirmPassword: req.body.confirmPassword,
         roleId: req.body.roleId
@@ -130,6 +132,7 @@ let handleRegister = async(req, res) => {
             city: req.body.city,
             email: req.body.email,
             university: req.body.university,
+            phone: req.body.phone,
             password: req.body.password,
             confirmPassword: req.body.confirmPassword,
             roleId: roleId,

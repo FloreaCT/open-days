@@ -1,3 +1,4 @@
+// Responsive menu
 const body = document.querySelector("body");
 const top_navbar = document.querySelector(".top_navbar");
 const menuBtn = document.querySelector(".menu-btn");
@@ -16,6 +17,7 @@ window.onscroll = () => {
     this.scrollY > 20 ? top_navbar.classList.add("sticky") : top_navbar.classList.remove("sticky");
 }
 
+// Validate image extension and size
 function validateSize(input) {
     const fileSize = input.files[0].size / 1024 / 1024; // in MiB
     const fileType = input.files[0].type.includes('image')
@@ -29,3 +31,26 @@ function validateSize(input) {
         // Proceed further
     }
 }
+
+// Example starter JavaScript for disabling form submissions if there are invalid fields
+(function() {
+    'use strict'
+
+    // Fetch all the forms we want to apply custom Bootstrap validation styles to
+    var forms = document.querySelectorAll('.needs-validation')
+
+    // Loop over them and prevent submission
+    Array.prototype.slice.call(forms)
+        .forEach(function(form) {
+
+            form.addEventListener('submit', function(event) {
+                if (!form.checkValidity()) {
+                    event.preventDefault()
+                    event.stopPropagation()
+                }
+
+                form.classList.add('was-validated')
+            }, false)
+
+        })
+})()

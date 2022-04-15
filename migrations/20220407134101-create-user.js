@@ -34,12 +34,13 @@ module.exports = {
                     notEmpty: true
                 }
             },
-            password: {
-                type: DataTypes.STRING,
+            phone: {
+                type: DataTypes.STRING(20),
                 allowNull: false,
                 validate: {
                     notEmpty: true
                 }
+
             },
             city: {
                 type: DataTypes.STRING,
@@ -51,6 +52,13 @@ module.exports = {
             university: {
                 type: DataTypes.STRING,
                 defaultValue: "Not at University"
+            },
+            password: {
+                type: DataTypes.STRING,
+                allowNull: false,
+                validate: {
+                    notEmpty: true
+                }
             },
             roleId: {
                 type: DataTypes.INTEGER,

@@ -19,10 +19,14 @@ const post_event = function(req, res) {
 }
 
 const events = function(req, res) {
-    var user = req.user
-    models.Event.findAll().then(events => {
-        res.render('book', { user: user, data: events })
-    })
+    if ([1, 3].includes(req.user.roleId)) {
+        var user = req.user
+        models.Event.findAll().then(events => {
+            res.render('book', { user: user, data: events })
+        })
+    } else {
+        res.redirect('/404.ejs')
+    }
 }
 
 const oneEvent = function(req, res) {
@@ -87,29 +91,38 @@ let removeBooking = function(req, res) {
 }
 
 let getAllEvents = function(req, res, next) {
-    var admin = auth.checkRole(req, res, next)
-    if (admin == 3) {
+    if (req.user.roleId == 3) {
         models.Event.findAll().then(events => {
             res.render('../views/manageEvents.ejs', { events: events })
         })
+    } else {
+        res.redirect('/404.ejs')
     }
 }
 
 let getAllUsers = function(req, res) {
-    models.User.findAll().then(users => {
-            global.globalUsers = users
-            res.render('../views/manageUsers.ejs', { users: users, alert: null })
-        }
+    if (req.user.roleId == 3) {
+        models.User.findAll().then(users => {
+                global.globalUsers = users
+                res.render('../views/manageUsers.ejs', { users: users, alert: null })
+            }
 
-    )
+        )
+    } else {
+        res.redirect('/404.ejs')
+    }
 }
-let getAllAttenders = async function(req, res) {
-    query = await db.myDatabase.query("SELECT firstName, lastName, u.id, e.title  FROM users as u LEFT OUTER JOIN attenders_to as a on u.id = a.userId INNER JOIN events as e on a.eventId = e.id;")
-        // Query is returning double results so i had delete one 
-    delete query[0]
-    const newList = query.filter((a) => a);
-    global.globalAttenders = newList
-    res.render('../views/manageAttenders.ejs', { users: globalAttenders, alert: null });
+let getAllAttenders = async function(req, res, next) {
+    if (req.user.roleId == 3) {
+        query = await db.myDatabase.query("SELECT firstName, lastName, u.id, e.title  FROM users as u LEFT OUTER JOIN attenders_to as a on u.id = a.userId INNER JOIN events as e on a.eventId = e.id;")
+            // Query is returning double results so i had delete one 
+        delete query[0]
+        const newList = query.filter((a) => a);
+        global.globalAttenders = newList
+        res.render('../views/manageAttenders.ejs', { users: globalAttenders, alert: null })
+    } else {
+        res.redirect('/404.ejs')
+    }
 }
 
 // Could not figure out why this works on Workbench but here i get firstName, lastName, id but event is null ..... 
@@ -141,6 +154,15 @@ let findUser = function(req, res) {
                 Sequelize.where(Sequelize.fn('lower', Sequelize.col('lastName')), {
                     [Op.like]: `%${search}%`,
                 }),
+                Sequelize.where(Sequelize.fn('lower', Sequelize.col('phone')), {
+                    [Op.like]: `%${search}%`,
+                }),
+                Sequelize.where(Sequelize.fn('lower', Sequelize.col('city')), {
+                    [Op.like]: `%${search}%`,
+
+                }), Sequelize.where(Sequelize.fn('lower', Sequelize.col('university')), {
+                    [Op.like]: `%${search}%`,
+                }),
             ],
         }
     }).then(users => {
@@ -150,7 +172,6 @@ let findUser = function(req, res) {
 
 let findAttender = async function(req, res) {
     let search = req.body.search
-    console.log(search);
     query = await db.myDatabase.query("SELECT firstName, lastName, u.id, e.title  FROM users as u LEFT OUTER JOIN attenders_to as a on u.id = a.userId INNER JOIN events as e on a.eventId = e.id WHERE firstName LIKE " + db.myDatabase.escape('%' + search + '%') + " OR lastName LIKE " + db.myDatabase.escape('%' + search + '%') + " OR title LIKE " + db.myDatabase.escape('%' + search + '%'))
         // Query is returning double results so i had delete one 
     delete query[0]
@@ -162,7 +183,7 @@ let findAttender = async function(req, res) {
 }
 
 let editUser = function(req, res) {
-    let sql = `UPDATE users SET firstName = "${req.body.firstName}", lastName ="${req.body.lastName}", email ="${req.body.email}", city = "${req.body.city}", university = "${req.body.university}" WHERE id = "${req.body.id}"`;
+    let sql = `UPDATE users SET firstName = "${req.body.firstName}", lastName ="${req.body.lastName}", email ="${req.body.email}", phone = "${req.body.phone}", city = "${req.body.city}", university = "${req.body.university}" WHERE id = "${req.body.id}"`;
     db.myDatabase.query(sql, function(err) {
         if (err) {
             console.log(err)
@@ -194,37 +215,42 @@ let deleteAttender = function(req, res) {
 }
 
 let getMyEvents = function(req, res) {
-    let isAuth = req.isAuthenticated()
-    models.Event.findOne({
-        where: { userId: req.user.id }
-    }).then(event => {
-        if (event === null) {
-            event = false
+    if ([2, 3].includes(req.user.roleId)) {
+        let isAuth = req.isAuthenticated()
+        models.Event.findOne({
+            where: { userId: req.user.id }
+        }).then(event => {
+            if (event === null) {
+                event = false
+                res.render('../views/myEvents.ejs', { event: event, isAuth: isAuth })
+            }
             res.render('../views/myEvents.ejs', { event: event, isAuth: isAuth })
-        }
-        res.render('../views/myEvents.ejs', { event: event, isAuth: isAuth })
 
-    }).catch(function(err) {
-        console.log(err);
-    });
-
+        }).catch(function(err) {
+            console.log(err);
+        });
+    }
 }
 
 let getAddEvent = async function(req, res) {
-    let form = {
-        title: req.body.title,
-        description: req.body.description,
-        begin_at: req.body.begin_at,
-        ends_at: req.body.ends_at,
-        userId: req.user.id
+    if ([2, 3].includes(req.user.roleId)) {
+        let form = {
+            title: req.body.title,
+            description: req.body.description,
+            begin_at: req.body.begin_at,
+            ends_at: req.body.ends_at,
+            userId: req.user.id
 
+        }
+        var isAuth = req.isAuthenticated()
+        return res.render('addEvent.ejs', {
+            isAuth: isAuth,
+            errors: req.flash('errors'),
+            form: form
+        })
+    } else {
+        res.redirect('/404.ejs')
     }
-    var isAuth = req.isAuthenticated()
-    return res.render('addEvent.ejs', {
-        isAuth: isAuth,
-        errors: req.flash('errors'),
-        form: form
-    })
 }
 
 
