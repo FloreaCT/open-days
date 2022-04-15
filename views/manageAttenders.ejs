@@ -12,68 +12,51 @@
         <br>
 
         <div>
-            <h1 style="text-align: center;"> ALL USERS</h1>
+            <h1 style="text-align: center;">
+                <p class="center_text" style="color:black">All Attenders
+                </p>
+            </h1>
         </div>
         <br><br>
         <div class="polaroid">
-            <%if (alert) {%>
-
-                <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                    <strong>You cannot delete yourself!</strong>
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-
-                    <%}%>
-                </div>
-        </div>
-        <div class="polaroid">
             <div class="top_navbar" style="padding-left: 10px;">
 
-                <form class="d-flex" method="post" action="/findAttenders">
-                    <input class="form-control me-2" type="search" placeholder="Search for a user" name="search" aria-label="Search">
+                <form class="d-flex" method="post" action="/findAttender">
+                    <input class="form-control me-2" type="search" placeholder="Search for a user or event" name="search" aria-label="Search">
                     <button class="btn btn-outline-light" type="submit">Search</button>
                 </form>
             </div>
         </div>
-        <table class="table table-bordered top_navbar">
+        <table class="table table-bordered top_navbar" style="color: white">
             <thead>
                 <tr>
-                    <th scope="col">#</th>
+                    <th scope="col">UserId</th>
                     <th scope="col">First Name</th>
                     <th scope="col">Last Name</th>
-                    <th scope="col">Email</th>
-                    <th scope="col">City</th>
-                    <th scope="col">University</th>
+                    <th scope="col">Event Name</th>
                     <th scope="col">Action</th>
                 </tr>
             </thead>
             <tbody>
-                <% users.forEach((item)=>{ %>
-                    <form action="<%='/users/edit'%>" method="POST">
+                <% users[0].forEach((item)=>{ %>
+                    <form action="<%='/attender/delete'%>" method="POST">
+
                         <tr>
                             <th scope="row">
                                 <%-item.id%>
                                     <input type="hidden" name="id" value="<%=item.id%>">
                             </th>
                             <td>
-                                <input type="text" name="firstName" value="<%=item.firstName%>">
+                                <%=item.firstName%>
                             </td>
                             <td>
-                                <input type="text" name="lastName" value="<%=item.lastName%>">
+                                <%=item.lastName%>
                             </td>
                             <td>
-                                <input type="text" name="email" value="<%=item.email%>">
+                                <%=item.title%>
                             </td>
                             <td>
-                                <input type="text" name="city" value="<%=item.city%>">
-                            </td>
-                            <td>
-                                <input type="text" name="university" value="<%=item.university%>">
-                            </td>
-                            <td>
-
-                                <button type="submit" value="submit"><i class="bi bi-eye"></i> Edit</button>
-                                <button type="submit" value="Delete" formaction="/attender/delete"><i class="bi bi-person-x"></i> Delete</button>
-
+                                <button type="submit" value="Delete"><i class="bi bi-person-x"></i> Delete</button>
                             </td>
                         </tr>
                     </form>

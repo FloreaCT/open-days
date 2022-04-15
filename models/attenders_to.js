@@ -48,7 +48,7 @@ module.exports = (sequelize, DataTypes) => {
 
 
     Attenders_to.associations = (models) => {
-        Attenders_to.belongsTo(models.User, {
+        Attenders_to.belongsToMany(models.User, {
                 as: 'user',
                 foreignKey: 'userId',
                 onDelete: 'cascade',

@@ -54,7 +54,7 @@ module.exports = {
             res.redirect("/")
         })
 
-        router.post('/book', dataController.submbitInterest)
+        router.post("/book", dataController.submbitInterest)
         router.post("/addEvent", (upload.upload, dataController.addEvent))
         router.post("/deleteEvent", dataController.deleteEvent)
         router.post("/removeBooking", dataController.removeBooking)
@@ -62,8 +62,10 @@ module.exports = {
         router.post("/addEvent", dataController.addEvent)
         router.post("/forgotPassword", homepageController.forgotPassword)
         router.post("/findUser", dataController.findUser)
-        router.post('/users/edit/', dataController.editUser);
+        router.post("/users/edit/", dataController.editUser);
         router.post("/users/delete/", dataController.deleteUser)
+        router.post("/findAttender", dataController.findAttender)
+        router.post("/attender/delete", dataController.deleteAttender)
         router.post("/login", passport.authenticate('local', {
             successRedirect: "/",
             failureRedirect: "/login",

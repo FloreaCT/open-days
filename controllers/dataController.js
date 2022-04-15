@@ -103,23 +103,32 @@ let getAllUsers = function(req, res) {
 
     )
 }
-
-let getAllAttenders = function(req, res) {
-    var admin = auth.checkRole(req, res)
-    if (admin == 3) {
-        models.Attenders_to.findAll({
-
-
-
-        }).then(users => {
-
-                global.globalUsers = users
-                res.render('../views/manageAttenders.ejs', { users: users, alert: null })
-            }
-
-        )
-    }
+let getAllAttenders = async function(req, res) {
+    query = await db.myDatabase.query("SELECT firstName, lastName, u.id, e.title  FROM users as u LEFT OUTER JOIN attenders_to as a on u.id = a.userId INNER JOIN events as e on a.eventId = e.id;")
+        // Query is returning double results so i had delete one 
+    delete query[0]
+    const newList = query.filter((a) => a);
+    global.globalAttenders = newList
+    res.render('../views/manageAttenders.ejs', { users: globalAttenders, alert: null });
 }
+
+// Could not figure out why this works on Workbench but here i get firstName, lastName, id but event is null ..... 
+// let getAllAttenders = function(req, res) {
+//     models.User.findAll({
+//             include: [
+//                 { model: models.Attenders_to, attributes: [], required: true, as: "attenders" },
+//                 { model: models.Event, attributes: ['title', 'id', 'description'], as: "event" }
+//             ],
+//             attributes: ['firstName', 'lastName', 'id']
+
+//         })
+//         .then(users => {
+//             console.log(users);
+
+//             global.globalAttenders = users
+//             res.render('../views/manageAttenders.ejs', { users: globalAttenders, alert: null });
+//         })
+// }
 
 let findUser = function(req, res) {
     let search = req.body.search
@@ -139,6 +148,19 @@ let findUser = function(req, res) {
     })
 }
 
+let findAttender = async function(req, res) {
+    let search = req.body.search
+    console.log(search);
+    query = await db.myDatabase.query("SELECT firstName, lastName, u.id, e.title  FROM users as u LEFT OUTER JOIN attenders_to as a on u.id = a.userId INNER JOIN events as e on a.eventId = e.id WHERE firstName LIKE " + db.myDatabase.escape('%' + search + '%') + " OR lastName LIKE " + db.myDatabase.escape('%' + search + '%') + " OR title LIKE " + db.myDatabase.escape('%' + search + '%'))
+        // Query is returning double results so i had delete one 
+    delete query[0]
+    const newList = query.filter((a) => a);
+
+    global.globalAttenders = newList
+
+    res.render('../views/manageAttenders.ejs', { users: globalAttenders, alert: null });
+}
+
 let editUser = function(req, res) {
     let sql = `UPDATE users SET firstName = "${req.body.firstName}", lastName ="${req.body.lastName}", email ="${req.body.email}", city = "${req.body.city}", university = "${req.body.university}" WHERE id = "${req.body.id}"`;
     db.myDatabase.query(sql, function(err) {
@@ -155,12 +177,20 @@ let deleteUser = function(req, res) {
     if (req.body.id.toString() === req.user.id.toString()) {
         return res.render('manageUsers', { users: globalUsers, alert: "You cannot delete yourself" });
     } else {
-        let sql = `DELETE FROM users WHERE id = ${req.body.id}`
-        db.myDatabase.query(sql, function(err, data) {
+        let query = `DELETE FROM users WHERE id = ${req.body.id}`
+        db.myDatabase.query(query, function(err, data) {
             if (err) { console.log(err); };
         });
         res.redirect('/manageUsers');
     }
+}
+
+let deleteAttender = function(req, res) {
+    let query = `DELETE FROM attenders_to WHERE userId = ${req.body.id}`
+    db.myDatabase.query(query, function(err, data) {
+        if (err) { console.log(err) }
+    })
+    res.redirect('/manageAttenders')
 }
 
 let getMyEvents = function(req, res) {
@@ -273,5 +303,7 @@ module.exports = {
     getAllAttenders: getAllAttenders,
     findUser: findUser,
     editUser: editUser,
-    deleteUser: deleteUser
+    deleteUser: deleteUser,
+    findAttender: findAttender,
+    deleteAttender: deleteAttender
 }
