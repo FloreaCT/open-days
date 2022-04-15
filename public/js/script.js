@@ -15,3 +15,17 @@ cancelBtn.onclick = () => {
 window.onscroll = () => {
     this.scrollY > 20 ? top_navbar.classList.add("sticky") : top_navbar.classList.remove("sticky");
 }
+
+function validateSize(input) {
+    const fileSize = input.files[0].size / 1024 / 1024; // in MiB
+    const fileType = input.files[0].type.includes('image')
+    if (fileSize > 2) {
+        alert('File size exceeds 2 MiB');
+        document.getElementById('image').value = "";
+    } else if (!fileType) {
+        alert('Only images are allowed')
+        document.getElementById('image').value = "";
+    } else {
+        // Proceed further
+    }
+}

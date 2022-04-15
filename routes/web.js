@@ -13,7 +13,7 @@ const db = require('../config/session')
 
 var storage = multer.diskStorage({
     destination: (req, file, callBack) => {
-        callBack(null, './public/images/uploadedImages') // './public/images/' directory name where save the file
+        callBack(null, './public/images/uploadedImages') // './public/images/' directory name where to save the file
     },
     filename: (req, file, callBack) => {
         callBack(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname))
@@ -48,11 +48,7 @@ module.exports = {
         router.get("/manageEvents", authController.checkLoggedIn, dataController.getAllEvents)
         router.get("/manageUsers", authController.checkLoggedIn, dataController.getAllUsers)
         router.get("/manageAttenders", authController.checkLoggedIn, dataController.getAllAttenders)
-        router.get("/logout", function(req, res) {
-            req.logout();
-            req.session.destroy();
-            res.redirect("/")
-        })
+        router.get("/logout", authController.postLogOut)
 
         router.post("/book", dataController.submbitInterest)
         router.post("/addEvent", (upload.upload, dataController.addEvent))
@@ -72,12 +68,12 @@ module.exports = {
             successFlash: true,
             failureFlash: true
         }))
-
         router.post("/upload", upload.single('image'), (req, res) => {
             if (!req.file) {
                 console.log("No file upload");
+                res.redirect('/myEvents')
             } else {
-                var imgName = 'http://127.0.0.1:3030/images/uploadedImages/' + req.file.filename
+                var imgName = '/images/uploadedImages/' + req.file.filename
                 var insertData = `UPDATE events SET image = "${imgName}" WHERE userId = ${req.user.id}`
 
                 db.myDatabase.query(insertData, (err, result) => {
@@ -88,9 +84,6 @@ module.exports = {
             }
         })
 
-
-
-        // router.get("/logout", authController.postLogOut)
         return app.use("/", router)
     }
 }

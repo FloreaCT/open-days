@@ -200,9 +200,9 @@ let getMyEvents = function(req, res) {
     }).then(event => {
         if (event === null) {
             event = false
-            res.render('../views/auth/myEvents.ejs', { event: event, isAuth: isAuth })
+            res.render('../views/myEvents.ejs', { event: event, isAuth: isAuth })
         }
-        res.render('../views/auth/myEvents.ejs', { event: event, isAuth: isAuth })
+        res.render('../views/myEvents.ejs', { event: event, isAuth: isAuth })
 
     }).catch(function(err) {
         console.log(err);

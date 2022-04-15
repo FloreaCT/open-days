@@ -12,10 +12,11 @@
         <a href="/profile">Back to Profile</a>
     </div>
 
-    <div class="eventContainer">
-        <h1> Your attending to: </h1>
-    </div>
-    <% if (mybookings[0] != 'undefined') {%>
+
+    <% if (mybookings[0][0]) {%>
+        <div class="eventContainer">
+            <h1> Your attending to: </h1>
+        </div>
         <% mybookings[0].forEach((item)=>{ %>
 
             <div class="polaroid">
@@ -36,7 +37,7 @@
                         <%- item.description%>
                     </h2>
                 </div>
-                <table class="table table-striped table-bordered table-hover table-success" style="max-width: 40%; margin: 50px auto 0 auto">
+                <table class="table table-striped table-bordered table-hover formContainer" style="max-width: 40%; margin: 50px auto 0 auto">
                     <thead>
                         <tr>
                             <th scope="col" style="text-align: center;" colspan="2">Event timings</th>
@@ -53,7 +54,7 @@
                         <tr>
                             <th scope="row">Event ends at</th>
                             <td>
-                                <%- item.ends_at%>
+                                <%- item.ends_at %>
                             </td>
 
                         </tr>
@@ -72,8 +73,13 @@
                 </form>
             </div>
 
-
-            <%})}%>
+            <%})} else {%>
+                <br><br>
+                <div class="formContainer center_text">
+                    <h1>You have not registered for any event.</h1>
+                </div>
+                <%}%>
+                    <script type="text/javascript" src="js/script.js"></script>
 </body>
 
 </html>
