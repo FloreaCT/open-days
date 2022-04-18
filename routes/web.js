@@ -63,7 +63,7 @@ module.exports = {
         router.post("/findAttender", dataController.findAttender)
         router.post("/attender/delete", dataController.deleteAttender)
         router.post("/login", passport.authenticate('local', {
-            successRedirect: "/",
+            successRedirect: "/profile",
             failureRedirect: "/login",
             successFlash: true,
             failureFlash: true

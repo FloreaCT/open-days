@@ -6,10 +6,12 @@ const { findUserByEmail } = require("../services/loginService")
 let getHomepage = (req, res) => {
     if (!req.user) {
         var user = false
-        res.render('index', { user: user })
+        var isAuth = req.isAuthenticated()
+        res.render('index', { user: user, isAuth: isAuth })
     } else {
         var user = req.user
-        return res.render('index', { user: user })
+        var isAuth = req.isAuthenticated()
+        return res.render('index', { user: user, isAuth: isAuth })
     }
 }
 

@@ -16,8 +16,10 @@
                             <% } %>
                                 <div>
                                     <div class="profile">
-                                        Welcome back
-                                        <%- user.lastName %>
+                                        <h1 class="center_text" style="color: black">Welcome back
+                                            <%- user.lastName %>
+                                        </h1>
+
                                     </div>
 
                                     <table class="table table-bordered formContainer" style="max-width: 40%; margin: 0 auto 0 auto">
@@ -45,6 +47,13 @@
                                                 <th scope="row">Email</th>
                                                 <td>
                                                     <%- user.email%>
+                                                </td>
+
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">Phone</th>
+                                                <td>
+                                                    <%- user.phone%>
                                                 </td>
 
                                             </tr>

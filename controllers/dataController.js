@@ -215,6 +215,7 @@ let deleteAttender = function(req, res) {
 }
 
 let getMyEvents = function(req, res) {
+    console.log(req.user.roleId);
     if ([2, 3].includes(req.user.roleId)) {
         let isAuth = req.isAuthenticated()
         models.Event.findOne({
@@ -229,6 +230,8 @@ let getMyEvents = function(req, res) {
         }).catch(function(err) {
             console.log(err);
         });
+    } else {
+        res.redirect('/404.ejs')
     }
 }
 
