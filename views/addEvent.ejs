@@ -1,86 +1,130 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
+  <head>
     <%- include('partials/headers.ejs') %>
-        <link href="css/auth.css" rel="stylesheet">
-        <title>Add event</title>
-</head>
+    <link href="css/auth.css" rel="stylesheet" />
+    <title>Add event</title>
+  </head>
 
-<body>
-
+  <body>
     <div class="top_navbar center_text">
-        <a href="/profile">Back to Profile</a>
+      <a href="/profile">Back to Profile</a>
     </div>
 
     <div>
-        <div class="error">
-            <% if(errors !=="") { %>
-                <% errors.forEach((item)=>{ %>
-                    <div class="alert">
-                        <%- item%>
-                    </div>
-                    <%})%>
-                        <%}%>
-        </div>
-        <form method="post" class="needs-validation" action="/addEvent" id="form" novalidate>
+      <div class="error">
+        <% if(errors !=="") { %> <% errors.forEach((item)=>{ %>
+        <div class="alert"><%- item%></div>
+        <%})%> <%}%>
+      </div>
+      <form
+        method="post"
+        class="needs-validation"
+        action="/addEvent"
+        id="form"
+        novalidate
+      >
+        <div class="container formContainer">
+          <fieldset>
+            <legend>
+              <h1>Add a new event</h1>
+            </legend>
 
-            <div class="container formContainer">
-                <fieldset>
-                    <legend>
-                        <h1>Add a new event</h1>
-                    </legend>
-
-                    <div class="group-input">
-                        <label for="title">Title of the event: </label>
-                        <input class="form-control" type="text" name="title" id="title" value="<%= form.title %>" required>
-                    </div>
-                    <div class="group-input">
-                        <label for="description">Event description: </label>
-                        <textarea class="form-control" name="description" id="description" value="<%= form.description %>" id="form" required></textarea>
-                    </div>
-
-                    <div class="group-input">
-                        <label for="begin_at">Choose event start time: (<span style="color: red">*</span>)</label>
-                        <input class="form-control" type="datetime-local" name="begin_at" id="begin_at" value="<% form.begin_at%>" required>
-                    </div>
-                    <div class="group-input">
-                        <label for="ends_at">Choose event end time: (<span style="color: red">*</span>)</label>
-                        <input class="form-control" type="datetime-local" name="ends_at" id="ends_at" value="<% form.ends_at%>" required>
-                    </div>
-
-                    <button type="submit">Submit</button>
-                </fieldset>
+            <div class="group-input">
+              <label for="title">Title of the event: </label>
+              <input
+                class="form-control"
+                type="text"
+                name="title"
+                id="title"
+                value="<%= form.title %>"
+                required
+              />
             </div>
-        </form>
+            <div class="group-input">
+              <label for="description">Event description: </label>
+              <textarea
+                class="form-control"
+                name="description"
+                id="description"
+                value="<%= form.description %>"
+                id="form"
+                required
+              ></textarea>
+            </div>
 
-        <script>
-        </script>
+            <div class="group-input">
+              <label for="begin_at"
+                >Choose event start time: (<span style="color: red">*</span
+                >)</label
+              >
+              <input
+                class="form-control"
+                type="datetime-local"
+                name="begin_at"
+                id="begin_at"
+                value="<% form.begin_at%>"
+                required
+              />
+            </div>
+            <div class="group-input">
+              <label for="ends_at"
+                >Choose event end time: (<span style="color: red">*</span
+                >)</label
+              >
+              <input
+                class="form-control"
+                type="datetime-local"
+                name="ends_at"
+                id="ends_at"
+                value="<% form.ends_at%>"
+                onchange="return checkDate()"
+                required
+              />
+            </div>
+            
+            <button type="submit">Submit</button>
+          </fieldset>
+        </div>
+      </form>
+
+
     </div>
     <script>
-        (function() {
-            'use strict'
+      (function () {
+        "use strict";
 
-            // Fetch all the forms we want to apply custom Bootstrap validation styles to
-            var forms = document.querySelectorAll('.needs-validation')
+        // Fetch all the forms we want to apply custom Bootstrap validation styles to
+        var forms = document.querySelectorAll(".needs-validation");
 
-            // Loop over them and prevent submission
-            Array.prototype.slice.call(forms)
-                .forEach(function(form) {
-
-                    form.addEventListener('submit', function(event) {
-                        if (!form.checkValidity()) {
-                            event.preventDefault()
-                            event.stopPropagation()
-                        }
-                        form.classList.add('was-validated')
-                    }, false)
-
-                })
-        })()
+        // Loop over them and prevent submission
+        Array.prototype.slice.call(forms).forEach(function (form) {
+          form.addEventListener(
+            "submit",
+            function (event) {
+              if (!form.checkValidity()) {
+                event.preventDefault();
+                event.stopPropagation();
+              }
+              form.classList.add("was-validated");
+            },
+            false
+          );
+        });
+      })();
+    </script>
+    <script>
+      function checkDate() {
+        const begin_at = document.querySelector('#begin_at')
+        const ends_at = document.querySelector('#ends_at')
+        if(begin_at.value > ends_at.value){
+            alert("Event end date/time cannot be lower than event begin time!")
+            var date = document.getElementById("ends_at")
+            date.value = null;
+           
+        } return false
+      }
     </script>
     <script href="js/script.js" type="text/js"></script>
-
-</body>
-
+  </body>
 </html>
