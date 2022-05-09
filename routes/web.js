@@ -9,7 +9,7 @@ const passport = require('passport')
 const models = require('../models')
 const multer = require('multer')
 const path = require('path')
-const db = require('../config/session')
+
 
 // Initialize passport
 initPassportLocal()

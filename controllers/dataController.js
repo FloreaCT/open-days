@@ -6,8 +6,27 @@ const db = require("../config/session")
 const Sequelize = require('sequelize');
 const auth = require('../controllers/authController')
 const Op = Sequelize.Op;
+const fs = require("fs");
 
-
+const deleteFile = async function (req, res) {
+  const fileToDelete = await db.myDatabase.query(
+    `SELECT image FROM events WHERE userId = ${req.user.id}`
+  );
+  if (fileToDelete[0][0].image == "/images/banner_uni.jpg") {
+    
+  } else {
+      console.log("I will delete ", fileToDelete[0][0].image);
+    fs.unlink(
+      `${
+        __dirname.replace("controllers", "public") + fileToDelete[0][0].image
+      }`,
+      function (err) {
+        if (err) throw err;
+        // if no error, file has been deleted successfully
+      }
+    );
+  }
+};
 
 const post_event = function(req, res) {
     models.Event.findAll()
@@ -65,6 +84,7 @@ let submbitInterest = async(req, res) => {
 
 let deleteEvent = function(req, res) {
     if (req.user.roleId === 3) {
+        deleteFile(req, res)
         models.Event.findOne({
             where: { id: req.body.id }
         }).then(event => {
@@ -72,6 +92,7 @@ let deleteEvent = function(req, res) {
             res.write(`<script>window.alert("Event has been successfully deleted!");window.location="/manageEvents";</script>`)
         })
     } else {
+        deleteFile(req, res)
         models.Event.findOne({
             where: { userId: req.user.id }
         }).then(event => {
@@ -224,8 +245,8 @@ let getMyEvents = function(req, res) {
             if (event === null) {
                 event = false
                 res.render('../views/myEvents.ejs', { event: event, isAuth: isAuth })
-            }
-            res.render('../views/myEvents.ejs', { event: event, isAuth: isAuth })
+            }else{
+            res.render('../views/myEvents.ejs', { event: event, isAuth: isAuth })}
 
         }).catch(function(err) {
             console.log(err);
