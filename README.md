@@ -288,6 +288,27 @@ let checkUser = (req, res, next) => {
 Used for all the database connections
 
 ```js
+
+const deleteFile = async function (req, res) {
+  const fileToDelete = await db.myDatabase.query(
+    `SELECT image FROM events WHERE userId = ${req.user.id}` // We use this query to get the image file location in order to be able to delete it from the server
+  ); 
+  if (fileToDelete[0][0].image == "/images/banner_uni.jpg") { 
+    // Since our default value is '/images/banner_uni.jpg' we don't want this to be deleted in case the user did not upload any image. We left if empty since we don't want anything to happen
+  } else {
+    fs.unlink(
+      `${
+        __dirname.replace("controllers", "public") + fileToDelete[0][0].image // Sincer __dirname will retrieve our current path, we want to change controllers to public in order to delete the image
+      }`,
+      function (err) {
+        if (err) throw err;
+        // if no error, file has been deleted successfully
+        console.log("File deleted!");
+      }
+    );
+  }
+};
+
 post_event // Used by Organization to post an event
 events // Checks if the user is an Admin or normal user before granting access to page. Organizers should not have access here. Finds all the bookings in the database.
 oneEvent // Retrieves from the database the posted event for the logged organizer.
@@ -376,7 +397,7 @@ var upload = multer({
     storage: storage
 });
 
-// Function to save the filename
+// Function to save the filename in the database (not the picture itself)
 const image = function("/upload", (req, res) => {
             if (!req.file) {
                 console.log("No file upload");
