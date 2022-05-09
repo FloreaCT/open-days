@@ -2,7 +2,7 @@ const express = require('express');
 const homepageController = require("../controllers/homepageController")
 const dataController = require('../controllers/dataController')
 const authController = require('../controllers/authController')
-    // const upload = require('../controllers/imageController')
+const imageController = require('../controllers/imageController')
 const auth = require("../validation/authValidation")
 const initPassportLocal = require('../controllers/passport/passportLocal')
 const passport = require('passport')
@@ -50,7 +50,7 @@ module.exports = {
         router.get("/manageAttenders", authController.checkLoggedIn, dataController.getAllAttenders)
         router.get("/logout", authController.postLogOut)
 
-        router.post("/book", dataController.submbitInterest)
+        router.post("/book", dataController.submitInterest)
         router.post("/addEvent", (upload.upload, dataController.addEvent))
         router.post("/deleteEvent", dataController.deleteEvent)
         router.post("/removeBooking", dataController.removeBooking)
@@ -68,22 +68,7 @@ module.exports = {
             successFlash: true,
             failureFlash: true
         }))
-        router.post("/upload", upload.single('image'), (req, res) => {
-            if (!req.file) {
-                console.log("No file upload");
-                res.redirect('/myEvents')
-            } else {
-                var imgName = '/images/uploadedImages/' + req.file.filename
-                var insertData = `UPDATE events SET image = "${imgName}" WHERE userId = ${req.user.id}`
-
-                db.myDatabase.query(insertData, (err, result) => {
-                    if (err) throw err
-                })
-
-                res.redirect('/myEvents')
-            }
-        })
-
+        router.post("/upload", imageController.upload.single('image'), imageController.image)
         return app.use("/", router)
     }
 }

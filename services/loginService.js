@@ -12,7 +12,7 @@ let handleLogin = (email, password) => {
                 if (isMatch) {
                     resolve(true);
                 } else {
-                    reject(`The password that you've entered is incorrect`);
+                    reject(`The password that you've entered is incorrect!`);
                 }
             });
         } else {

@@ -20,10 +20,11 @@ const myDatabase = new Sequelize(
 const sessionStore = new SequelizeStore({
     db: myDatabase
 })
+
 const configSession = (app) => {
     app.use(
         session({
-            key: "express.sid",
+            key: "express.sid", // We can change this to whatever we would like the key to be named
             secret: "secret",
             storage: sessionStore,
             resave: true,

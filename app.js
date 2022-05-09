@@ -15,7 +15,7 @@ const app = express()
 // Configuring server for cookies
 app.use(cookieParser('secret'))
 
-// Showing the meessage to the user
+// Allowing app to use flash
 app.use(flash())
 
 // Configuring body-parser for post

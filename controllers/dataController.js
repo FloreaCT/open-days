@@ -44,7 +44,7 @@ const getMyBookings = async function(req, res) {
     return res.render('myBookings', { isAuth: isAuth, mybookings: query })
 }
 
-let submbitInterest = async(req, res) => {
+let submitInterest = async(req, res) => {
 
     // Register user to database
     try {
@@ -320,7 +320,7 @@ module.exports = {
     events: events,
     oneEvent: oneEvent,
     post_event: post_event,
-    submbitInterest: submbitInterest,
+    submitInterest: submitInterest  ,
     getMyBookings: getMyBookings,
     addEvent: addEvent,
     getAddEvent: getAddEvent,
