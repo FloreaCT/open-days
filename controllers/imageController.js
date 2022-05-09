@@ -4,7 +4,7 @@ const db = require('../config/session')
 
 var storage = multer.diskStorage({
     destination: (req, file, callBack) => {
-        callBack(null, '/images/uploadedImages') // './public/images/' directory name where to save the file
+        callBack(null, __dirname.replace("controllers", "public")+ "/images/uploadedImages/") // './public/images/' directory name where to save the file
     },
     filename: (req, file, callBack) => {
         callBack(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname))
