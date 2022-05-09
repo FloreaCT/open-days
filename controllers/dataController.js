@@ -13,14 +13,8 @@ const deleteFile = async function (req, res) {
   const fileToDelete = await db.myDatabase.query(
     `SELECT image FROM events WHERE userId = ${req.user.id}`
   );
-  console.log(fileToDelete, "Response from query");
-  console.log(fileToDelete[0], "Going deep into response");
-  console.log(fileToDelete[0][0], "Going even deeper!");
   if (!fileToDelete[0][0] || fileToDelete[0][0].image == "/images/banner_uni.jpg") {
-    console.log("I HAVE NO FILE ");
   } else {
-      console.log("I WILL DELETE ", fileToDelete[0][0].image);
-      console.log("OR DID I DELETE ", __dirname.replace("controllers", "public") + fileToDelete[0][0].image);
     fs.unlink(
       `${
         __dirname.replace("controllers", "public") + fileToDelete[0][0].image
