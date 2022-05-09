@@ -18,7 +18,8 @@ const deleteFile = async function (req, res) {
   if (fileToDelete[0][0].image == "/images/banner_uni.jpg") {
     console.log("I HAVE NO FILE ");
   } else {
-      console.log("I will delete ", fileToDelete[0][0].image);
+      console.log("I WILL DELETE ", fileToDelete[0][0].image);
+      console.log("OR DID I DELETE ", __dirname.replace("controllers", "public") + fileToDelete[0][0].image);
     fs.unlink(
       `${
         __dirname.replace("controllers", "public") + fileToDelete[0][0].image
