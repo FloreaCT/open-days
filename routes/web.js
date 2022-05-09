@@ -2,7 +2,7 @@ const express = require('express');
 const homepageController = require("../controllers/homepageController")
 const dataController = require('../controllers/dataController')
 const authController = require('../controllers/authController')
-    // const upload = require('../controllers/imageController')
+const imageController = require('../controllers/imageController')
 const auth = require("../validation/authValidation")
 const initPassportLocal = require('../controllers/passport/passportLocal')
 const passport = require('passport')
@@ -10,23 +10,6 @@ const models = require('../models')
 const multer = require('multer')
 const path = require('path')
 const db = require('../config/session')
-
-var storage = multer.diskStorage({
-    destination: (req, file, callBack) => {
-        callBack(null, './public/images/uploadedImages') // './public/images/' directory name where to save the file
-    },
-    filename: (req, file, callBack) => {
-        callBack(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname))
-    }
-})
-
-var upload = multer({
-    storage: storage
-});
-
-
-
-
 
 // Initialize passport
 initPassportLocal()
@@ -51,7 +34,7 @@ module.exports = {
         router.get("/logout", authController.postLogOut)
 
         router.post("/book", dataController.submbitInterest)
-        router.post("/addEvent", (upload.upload, dataController.addEvent))
+        router.post("/addEvent", (imageController.upload, dataController.addEvent))
         router.post("/deleteEvent", dataController.deleteEvent)
         router.post("/removeBooking", dataController.removeBooking)
         router.post("/register", auth.validateRegister, homepageController.handleRegister)
@@ -62,27 +45,14 @@ module.exports = {
         router.post("/users/delete/", dataController.deleteUser)
         router.post("/findAttender", dataController.findAttender)
         router.post("/attender/delete", dataController.deleteAttender)
+        router.post("/upload", imageController.upload.single('image'), imageController.image)
         router.post("/login", passport.authenticate('local', {
             successRedirect: "/profile",
             failureRedirect: "/login",
             successFlash: true,
             failureFlash: true
         }))
-        router.post("/upload", upload.single('image'), (req, res) => {
-            if (!req.file) {
-                console.log("No file upload");
-                res.redirect('/myEvents')
-            } else {
-                var imgName = '/images/uploadedImages/' + req.file.filename
-                var insertData = `UPDATE events SET image = "${imgName}" WHERE userId = ${req.user.id}`
 
-                db.myDatabase.query(insertData, (err, result) => {
-                    if (err) throw err
-                })
-
-                res.redirect('/myEvents')
-            }
-        })
 
         return app.use("/", router)
     }
