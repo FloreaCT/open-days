@@ -9,13 +9,14 @@ const Op = Sequelize.Op;
 const fs = require("fs");
 
 const deleteFile = async function (req, res) {
+    console.log(req.user.id);
   const fileToDelete = await db.myDatabase.query(
     `SELECT image FROM events WHERE userId = ${req.user.id}`
   );
   console.log(fileToDelete, "Response from query");
   console.log(fileToDelete[0], "Going deep into response");
   console.log(fileToDelete[0][0], "Going even deeper!");
-  if (!fileToDelete[0][0].image || fileToDelete[0][0].image == "/images/banner_uni.jpg") {
+  if (!fileToDelete[0][0] || fileToDelete[0][0].image == "/images/banner_uni.jpg") {
     console.log("I HAVE NO FILE ");
   } else {
       console.log("I WILL DELETE ", fileToDelete[0][0].image);
