@@ -141,7 +141,7 @@ let handleRegister = async(req, res) => {
             createdAt: Date.now()
         };
 
-        await createUser(user, req, res) // Waiting for function return before proceeding 
+        await createUser(user, req, res)
 
         return res.redirect("/")
 

@@ -1,10 +1,9 @@
 const multer = require('multer')
 const path = require('path')
-const db = require('../config/session')
 
 var storage = multer.diskStorage({
     destination: (req, file, callBack) => {
-        callBack(null, './public/images/uploadedImages') // './public/images/' directory name where to save the file
+        callBack(null, './public/images/') // './public/images/' directory name where save the file
     },
     filename: (req, file, callBack) => {
         callBack(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname))
@@ -16,20 +15,18 @@ var upload = multer({
 });
 
 
-const image = (req, res) => {
+const image = app.post("/upload", upload.single('image'), (req, res) => {
     if (!req.file) {
         console.log("No file upload");
-        res.redirect('/myEvents')
     } else {
-        var imgName = '/images/uploadedImages/' + req.file.filename
-        var insertData = `UPDATE events SET image = "${imgName}" WHERE userId = ${req.user.id}`
-
-        db.myDatabase.query(insertData, (err, result) => {
+        var imgsrc = 'http://127.0.0.1:3000/images/' + req.file.filename
+        var insertData = "INSERT INTO users_file(file_src)VALUES(?)"
+        db.query(insertData, [imgsrc], (err, result) => {
             if (err) throw err
         })
-
-        res.redirect('/myEvents')
+        res.write(`<script>window.alert("Image uploaded successfully!");window.location="/book";</script>`)
+        return res.redirect('/myEvents')
     }
-}
+})
 
-module.exports = { image: image, upload: upload }
+model.exports = { image: image }
