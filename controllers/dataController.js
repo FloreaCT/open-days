@@ -15,6 +15,7 @@ const deleteFile = async function (req, res) {
   );
   if (!fileToDelete[0][0] || fileToDelete[0][0].image == "/images/banner_uni.jpg") {
   } else {
+      console.log(process.cwd());
     fs.unlink(
       `${
         __dirname.replace("controllers", "public") + fileToDelete[0][0].image
