@@ -4,10 +4,10 @@ const bcrypt = require('bcryptjs')
 
 let handleLogin = (email, password) => {
     return new Promise(async(resolve, reject) => {
-        //check email is exist or not
+        //Check if email exists or not
         let user = await findUserByEmail(email);
         if (user) {
-            //compare password
+            //Compare password
             await bcrypt.compare(password, user.password).then((isMatch) => {
                 if (isMatch) {
                     resolve(true);

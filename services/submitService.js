@@ -3,8 +3,8 @@ const db = require("../models")
 let submit = (submit, req, res) => {
     return new Promise(async(resolve, reject) => {
         try {
-            // Checking if user or email already exists in the db
-            // Return true if email exists in db
+            // Checking if user has registered for that event
+            // Return true if he did
             let isAlreadyInterested = await checkInterest(submit, req, res)
             if (isAlreadyInterested) {
                 reject("You have already registered for that event")

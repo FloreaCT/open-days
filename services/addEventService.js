@@ -3,8 +3,8 @@ const db = require("../models")
 let addAEvent = (event, req, res) => {
     return new Promise(async(resolve, reject) => {
         try {
-            // Checking if user or email already exists in the db
-            // Return true if email exists in db
+            // Checking if event already exists in the db
+            // Return true if event exists in db
             let doesEventExists = await eventExists(event, req, res)
             if (doesEventExists) {
                 reject(`You can have only 1 event.`)

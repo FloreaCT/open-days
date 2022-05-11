@@ -10,13 +10,13 @@ let createUser = (user, req, res) => {
             let isEmailExist = await checkEmailUser(user, req, res)
             if (isEmailExist) {
                 reject(`${user.email} is already in our database. <a href="/forgotPassword">Recover lost password</a>`)
-            } else if ([1, 'institute', 'administrator'].includes(user.roleId)) {
+            } else if ([1, 'institute', 'administrator'].includes(user.roleId)) { // Checking if user has inserted a code for institute or administrator on registration form.
 
                 // Hash the password
                 const salt = bcrypt.genSaltSync(10)
                 user.password = await bcrypt.hashSync(user.password.toString(), salt)
 
-                // Adjust role
+                // If the user has entered the code, we adjust its roleId to reflect the code.
                 if (user.roleId === 'institute') {
                     user.roleId = "2"
                 } else if (user.roleId === 'administrator') {

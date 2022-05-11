@@ -1,6 +1,7 @@
 const { validationResult } = require("express-validator")
 const { createUser } = require("../services/userService")
 const { findUserByEmail } = require("../services/loginService")
+const models = require("../models");
 
 
 let getHomepage = (req, res) => {
@@ -17,7 +18,11 @@ let getHomepage = (req, res) => {
 
 let getProfilePage = (req, res) => {
     let user = req.user
-    return res.render("profile.ejs", { user: user })
+    models.User.findOne({
+        where: { id: req.user.id }
+    }).then((settings) => {
+        return res.render("profile.ejs", { user: user, settings: settings })
+    })
 }
 
 let getEventsPage = (req, res) => {

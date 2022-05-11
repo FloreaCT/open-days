@@ -1,9 +1,25 @@
 # open-days
+
 University project for Advanced Databases in order to demonstrate and apply full stack technologies. 
 
 ## 1. About 
 
 The project main idea is to create a space where institutions (universities) to add their open days and students can see all of the events and be able to subscribe to them. 
+
+Before you get started you will need to have installed the following: 
+- An IDE (I've used VS Code)
+- NODE JS
+- GIT (In case you want to use the second method of accessing the repository)
+
+Tools used for creating the app:
+
+- Node JS
+- Express
+- EJS
+- HTML/CSS
+- JAVA + JS
+- MySQL (for database)
+- Heroku (for deployment)
 
 The website is comprise of 3 category of users:
 
@@ -11,10 +27,7 @@ The website is comprise of 3 category of users:
 - User: Can book to any Open Day (once) and can view a list of place where he had booked
 - Admin: Can view/edit/delete users, bookings, and events. For now admins can book/create events.
 
-Before you get started you will need to have installed the following: 
-- An IDE (I've used VS Code)
-- NODE JS
-- GIT (In case you want to use the second method of accessing the repository)
+<div style="page-break-after: always;"></div>
 
 ## 2. How to get started
 
@@ -23,11 +36,13 @@ Before you get started you will need to have installed the following:
     
     Download and extract the repository and save it wherever you want on your computer.
 
-  ### ![how-to-download-the-repository!](/assets/images/1.png "How to download the repository")
+  ### ![how-to-download-the-repository!](assets/images/1.png "How to download the repository")
+
+  <div style="page-break-after: always;"></div>
   
     Then you need to open VS code and add drag and drop the folder you've just extracted to it
 
-  ### ![how-to-add-folder](/assets/images/2.png "How to add folder to VS code!")
+  ### ![how-to-add-folder](assets/images/2.png "How to add folder to VS code!")
 
     In the VS terminal you will need to write in the exact order:
     - <code>git -init</code>
@@ -44,9 +59,11 @@ Before you get started you will need to have installed the following:
 
     - <code>git clone https://github.com/FloreaCT/open-days.git</code>
 
+    <div style="page-break-after: always;"></div>
+
     You should have a new folder created like the one showed bellow
 
-    ![Navigate to the newly created folder](/assets/images/3.png "Navigate to the newly created folder")
+    ![Navigate to the newly created folder](assets/images/3.png "Navigate to the newly created folder")
 
     Open VS Code and add the folder inside like in this example [How to add a folder](#how-to-add-folder)
 
@@ -57,7 +74,9 @@ Before you get started you will need to have installed the following:
 
     After that you need to add your Database details here
 
-    ### ![database-settings](/assets/images/database.PNG "Database Settings")
+    ### ![database-settings](assets/images/database.PNG "Database Settings")
+
+    <div style="page-break-after: always;"></div>1
 
     If all settings are correct, the following command should work without any errors. If you do encounter errors please double check your database details and make sure they are correct.
 
@@ -69,9 +88,9 @@ Before you get started you will need to have installed the following:
 
 ## 3. How it works
 
-<img style="float: left;" src="assets/images/4.PNG">  
+![files](assets/images/files.PNG "Files") 
 
-&nbsp;
+<div style="page-break-after: always;"></div>
 
 1.<em> <b>assets</b></em> is where the pictures for this md are kept
 
@@ -79,43 +98,46 @@ Before you get started you will need to have installed the following:
 
 3.<em> <b>[controllers](#controllers)</b></em> here we store our passport settings, user access, database queries and image upload settings
 
-<p>4. <em><b>migrations</b></em> inside we have schema files used to automate the creation of our database tables
+4.<em> <b>[migrations](#migrations)</b></em> inside we have schema files used to automate the creation of our database tables
 
-<p>5. <em><b>controllers</b></em> inside we have schema files used to insert data into our database
+5.<em> <b>[controllers](#controllers)</b></em> inside we have schema files used to insert data into our database
 
-<p>6. <em><b>public</b></em> it is used for storing css/js/image files
+6.<em> <b>[public](#public)</b></em> it is used for storing css/js/image files
 
-<p>7. <em><b>routes</b></em> here we define our all website routes (pages)
+7.<em> <b>[routes](#routes)</b></em> here we define our all website routes (pages)
 
-<p>8. <em><b>services</b></em> defines some settings related to our interaction with the database
+8.<em> <b>[services](#services)</b></em> defines some settings related to our interaction with the database
 
-<p>9. <em><b>validation</b></em> settings for user authentication 
+9.<em> <b>[validation](#validation)</b></em> settings for user authentication 
 
-<p>10. <em><b>views</b></em> all webpages are stored here
+10.<em> <b>[views](#views)</b></em> all webpages are stored here
 
-<p>11. <em><b>.env</b></em> storing variables for database connections (used for Heroku)
+11.<em> <b>[env](#env)</b></em> storing variables for database connections (used for Heroku)
 
-<p>12. <em><b>.gitignore</b></em> tells git which files to ignore from adding/committing
+12.<em> <b>[.gitignore](#gitignore)</b></em> tells git which files to ignore from adding/committing
 
-<p>13. <em><b>app.js</b></em> main application file
+13.<em> <b>[app.js](#appjs)</b></em> main application file
 
-<p>14. <em><b>LICENSE</b></em> License for using this app
+14.<em> <b>[LICENSE](#license)</b></em> License for using this app
 
-<p>15. <em><b>package-lock.json / package.json</b></em> here are stored all the dependencies needed in order for this app to work
+15.<em> <b>[package.json](#packagejson)</b></em> here are stored all the dependencies needed in order for this app to work
 
-<p>16. <em><b>Procfile</b></em> storing run commands (used for Heroku)
+16.<em> <b>[Procfile](#procfile)</b></em> storing run commands (used for Heroku)
 
 <p>&nbsp;</p>  <p>&nbsp;</p>
 
-## Config
+### Config
 
 We have the following files inside config:
 
-![config](/assets/images/config.PNG)
+![config](assets/images/config.PNG)
 
-### config.js
+<div style="page-break-after: always;"></div>
+
+<em> config.js </em>
 
 We require dotenv in order to access the variables stored in .env file which are then used to access the database
+
 ```js
 require('dotenv').config()
 module.exports = {
@@ -127,7 +149,7 @@ module.exports = {
         "dialect": "mysql" // Database dialect. We can use NoSQL, SQLite, etc.
 ```
 
-### session.js
+<em>session.js</em>
 
 ```js
 const configSession = (app) => {
@@ -149,7 +171,7 @@ const configSession = (app) => {
 }
 ```
 
-### viewEngine.js 
+<em>viewEngine.js</em>
 
 **Note:** Since the app was build on ejs, this should not be modified!
 
@@ -165,7 +187,7 @@ module.exports = {
 
 ### Controllers
 
-passportLocal.js 
+<em>passportLocal.js</em> 
 
  Used for authentication as well as serializing and deserializing the user. Meaning we will transform the user with all it's info into a Object that we can use throughout the session.
 
@@ -200,7 +222,9 @@ passportLocal.js
 }
 ```
 
-### authController.js
+<em>authController.js</em>
+
+Used for controlling authentication/posting.
 
 ```js
 // Used to render the login page
@@ -283,7 +307,7 @@ let checkUser = (req, res, next) => {
 }
 ```
 
-### dataController.js
+<em>dataController.js</em>
 
 Used for all the database connections
 
@@ -326,7 +350,9 @@ deleteUser // Deletes a user
 deleteAttender // Deletes a particular booking
 ```
 
-### homepageControler.js
+<em>homepageControler.js</em>
+
+Used for controlling registration/login.
 
 ```js
 let getHomepage = (req, res) => {
@@ -380,37 +406,136 @@ getForgotPassword // Renders Forgot password page
 getEventsPage // Renders organizations event page
 ```
 
-### imageController.js
+<em>imageController.js</em>
+
+Used for controlling image uploading.
 
 ```js
 // Function to save the file on the server (not on the database)
 var storage = multer.diskStorage({
     destination: (req, file, callBack) => {
-        callBack(null, './public/images/') // Path to where we save the images
+        callBack(null, "./public/images/uploadedImages") // './public/images/' directory name where to save the file
     },
     filename: (req, file, callBack) => {
         callBack(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname))
     }
 })
+
 // Multer is a node.js middleware for handling multipart/form-data, which is primarily used for uploading files.
 var upload = multer({
     storage: storage
 });
 
 // Function to save the filename in the database (not the picture itself)
-const image = function("/upload", (req, res) => {
-            if (!req.file) {
-                console.log("No file upload");
-                res.redirect('/myEvents')
-            } else {
-                var imgName = '/images/uploadedImages/' + req.file.filename
-                var insertData = `UPDATE events SET image = "${imgName}" WHERE userId = ${req.user.id}`
+const image = (req, res) => {
+    if (!req.file) {
+        res.redirect('/myEvents')
+    } else {
+        var imgName = '/images/uploadedImages/' + req.file.filename // This will be the name stored in the Database which we will retrieve later on when we need to delete the file from the server. It will act as the path.
+        var insertData = `UPDATE events SET image = "${imgName}" WHERE userId = ${req.user.id}` 
 
-                db.myDatabase.query(insertData, (err, result) => {
-                    if (err) throw err
-                })
-
-                res.redirect('/myEvents')
-            }
+        db.myDatabase.query(insertData, (err, result) => {
+            if (err) throw err
         })
+
+        res.redirect('/myEvents')
+    }
+}
 ```
+
+### Migrations
+
+Since we are using Sequelize, we created the migration file, which will automate the creation/deletion of tables on/from a database. Using this we can port the application on mostly any database without the need of manually recreating the tables.
+
+### Models
+
+Models are used by Sequelize to replace the need of raw queries in our webapp. As examples, in stead of writing SELECT * FROM myTable we could write models.myModels.findall(). More details can be found [here](https://sequelize.org/docs/v6/core-concepts/model-basics/#:~:text=Models%20are%20the%20essence%20of,(and%20their%20data%20types).).
+
+### Public
+
+Public folder is mostly used for files that can be access or is it used by our website visitors as well as settings for our website, for example CSS files and JS and Images.
+
+### Routes
+
+Routes are actually the paths to all our website links used by the webapp. It includes POST links as well.
+
+```js
+module.exports = {
+    initAllWebRoute(app) {
+        router.get("/", homepageController.getHomepage, authController.checkRole) // Getting home page and checking the role of our visitor
+        router.get("/register", authController.checkLoggedOut, homepageController.getRegisterPage) // Checking if user is logged in, if not, get registration page
+        router.get("/login", authController.checkLoggedOut, homepageController.getLoginPage) // Checking if user is logged in, if not, get login page
+        router.get("/profile", authController.checkLoggedIn, homepageController.getProfilePage) // Checking if user is not logged in, if it is, get his profile page.
+        .
+        .
+        .
+        router.post("/book", dataController.submbitInterest) // Enrolling a user to an event
+        router.post("/addEvent", (imageController.upload, dataController.addEvent)) // Adding a new event
+        router.post("/deleteEvent", dataController.deleteEvent) // Delete an event
+```
+
+### Services
+
+<em>addEventService.js</em>
+
+Service used for adding an event to the database. 
+
+```js
+let addAEvent = (event, req, res) => {
+    return new Promise(async(resolve, reject) => {
+        try {
+            // Checking if event already exists in the db
+            // Return true if event exists in db
+            let doesEventExists = await eventExists(event, req, res) // A function that checks the database for 1 event for the logged user.
+            if (doesEventExists) { // We can remove this if block to allow Institutes to have more then 1 event.
+                reject(`You can have only 1 event.`)
+```
+
+<em>loginService.js</em>
+
+Service used for login purposes. It checks if current email exists, if password entered is correct, and also if recovery email exists.
+
+<em>submitService.js</em>
+
+Service used for registering a user to an event. If the user has already registered to a particular event, he wont be able to do it again. 
+
+<em>userService.js</em>
+
+Service used for registration purposes. Checks if email exists in the database before creating. Checks if user entered a special code to change his role.
+
+### Validation
+
+Checks if email is valid, if password has a certain length and if password confirmation matches.
+
+<div style="page-break-after: always;"></div>
+
+### Views
+
+![views](assets/images/views.PNG)
+
+Here we keep all of our webpages which are formatted as ejs. Page elements have been separated from all the pages, as example; header, footer, navbar for easier maintenance and scalability.
+
+### .env
+
+Contains database informations, like user, password, host. It will be used by our session.js file in order to authenticate on database server.
+
+### .gitignore
+
+Contains a list of files that should be ignored by git. This way we will avoid uploading to github or other platform files with sensitive informations.
+
+### app.js 
+
+Here is our main app file. Here we tell our app what modules to load, what modules to use, how to use them, what engine to use to render our webpages, setting PORT number, etc.
+
+### LICENSE
+
+Here we keep our license details for other people to read in case they want to use/re-use/modify our app. 
+
+### package.json
+
+Here we have details about our webapp name, creator, repository links as well as all the dependencies needed in order for the webapp to properly work. 
+
+### Procfile
+
+Its only use is for Heroku. 2 predefined commands are stored here that can be used inside Heroku domain.
+

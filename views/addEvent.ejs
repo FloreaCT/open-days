@@ -1,61 +1,45 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <%- include('partials/headers.ejs') %>
-    <link href="css/auth.css" rel="stylesheet" />
-    <title>Add event</title>
-  </head>
 
-  <body>
+<head>
+    <%- include('partials/headers.ejs') %>
+        <link href="css/auth.css" rel="stylesheet" />
+        <title>Add event</title>
+</head>
+
+<body>
     <div class="top_navbar center_text">
-      <a href="/profile">Back to Profile</a>
+        <a href="/profile">Back to Profile</a>
     </div>
 
     <div>
-      <div class="error">
-        <% if(errors !=="") { %> <% errors.forEach((item)=>{ %>
-        <div class="alert"><%- item%></div>
-        <%})%> <%}%>
-      </div>
-      <form
-        method="post"
-        class="needs-validation"
-        action="/addEvent"
-        id="form"
-        novalidate
-      >
-        <div class="container formContainer">
-          <fieldset>
-            <legend>
-              <h1>Add a new event</h1>
-            </legend>
+        <div class="error">
+            <% if(errors !=="") { %>
+                <% errors.forEach((item)=>{ %>
+                    <div class="alert">
+                        <%- item%>
+                    </div>
+                    <%})%>
+                        <%}%>
+        </div>
+        <form method="post" class="needs-validation" action="/addEvent" id="form" novalidate>
+            <div class="container formContainer">
+                <fieldset>
+                    <legend>
+                        <h1>Add a new event</h1>
+                    </legend>
 
-            <div class="group-input">
-              <label for="title">Title of the event: </label>
-              <input
-                class="form-control"
-                type="text"
-                name="title"
-                id="title"
-                value="<%= form.title %>"
-                required
-              />
-            </div>
-            <div class="group-input">
-              <label for="description">Event description: </label>
-              <textarea
-                class="form-control"
-                name="description"
-                id="description"
-                value="<%= form.description %>"
-                id="form"
-                required
-              ></textarea>
-            </div>
+                    <div class="group-input">
+                        <label for="title">Title of the event: </label>
+                        <input class="form-control" type="text" name="title" id="title" value="<%= form.title %>" required />
+                    </div>
+                    <div class="group-input">
+                        <label for="description">Event description: </label>
+                        <textarea class="form-control" name="description" id="description" value="<%= form.description %>" id="form" required></textarea>
+                    </div>
 
-            <div class="group-input">
-              <label for="begin_at"
-                >Choose event start time: (<span style="color: red">*</span
+                    <div class="group-input">
+                        <label for="begin_at">Choose event start time: (<span style="color: red">*</span
                 >)</label
               >
               <input
@@ -63,6 +47,8 @@
                 type="datetime-local"
                 name="begin_at"
                 id="begin_at"
+                min=""
+                onchange="setMaxTime()"
                 value="<% form.begin_at%>"
                 required
               />
@@ -82,13 +68,11 @@
                 required
               />
             </div>
-            
+
             <button type="submit">Submit</button>
           </fieldset>
         </div>
       </form>
-
-
     </div>
     <script>
       (function () {
@@ -115,14 +99,26 @@
     </script>
     <script>
       function checkDate() {
-        const begin_at = document.querySelector('#begin_at')
-        const ends_at = document.querySelector('#ends_at')
-        if(begin_at.value > ends_at.value){
-            alert("Event end date/time cannot be lower than event begin time!")
-            var date = document.getElementById("ends_at")
-            date.value = null;
-           
-        } return false
+        const begin_at = document.querySelector("#begin_at");
+        const ends_at = document.querySelector("#ends_at");
+        if (begin_at.value > ends_at.value) {
+          alert("Event end date/time cannot be lower than event begin time!");
+          var date = document.getElementById("ends_at");
+          date.value = null;
+        }
+        return false;
+      }
+    </script>
+    <script>
+      const now = new Date();
+      const minDate = new Date(now.getTime() - now.getTimezoneOffset() * 60000)
+        .toISOString()
+        .substring(0, 19);
+      document.getElementById("begin_at").setAttribute("min", minDate);
+    </script>
+    <script>
+      function setMaxTime() {
+        document.getElementById("ends_at").setAttribute("min", document.getElementById("begin_at").value);
       }
     </script>
     <script href="js/script.js" type="text/js"></script>

@@ -51,7 +51,7 @@
                         </div>
                         <div class="group-input">
                             <label for="phone">Phone number:</label>
-                            <input type="tel" name="phone" id="phone" value="<%= form.phone %>" required>
+                            <input type="tel" name="phone" id="phone" value="<%= form.phone %>"  onkeypress="return /[0-9]/i.test(event.key)"required>
                         </div>
                         <div class="group-input">
                             <label for="password">Password: (<span style="color: red">*</span>)</label>

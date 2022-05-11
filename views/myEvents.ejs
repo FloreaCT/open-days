@@ -82,25 +82,32 @@
                         </div>
                         <% if(event.image === null || event.image === '/images/banner_uni.jpg'){ %>
                             <div class="container">
-                                <form method="post" enctype="multipart/form-data" action="/upload" name="imageUpload">
-
-                                    <fieldset>
+                                <form method="post" id="formx" enctype="multipart/form-data" action="/upload" name="imageUpload">
                                         <legend>Upload banner for event:</legend>
                                         <em>Maximum file size is 2M</em>
                                         <div class="group-input">
                                             <label for="image"> </label>
-                                            <input type="file" name="image" id="image" accept="image/x-png, image/gif, image/jpeg" onchange="validateSize(this)">
+                                            <input type="file" name="image" id="image" accept="image/x-png, image/gif, image/jpeg"  onchange="validateSize(this)">
                                         </div>
-                                        <button type="submit">Submit</button>
-                                    </fieldset>
+                                        <button type="button" onclick="checkEmpty()">Submit</button>
+                                
                                 </form>
                             </div>
                     </div>
 
                     <%}%>
                         </div>
-
                         <script type="text/javascript" src="js/script.js"></script>
+                        <script>
+                                function checkEmpty(){
+                                   if( (document.getElementById('image').value).length > 0 ) {
+                                                                       document.getElementById('formx').submit();
+                                   } else {
+                                       alert("You need to select a file before submitting")
+                                   }
+                                }
+
+                        </script>
 
 </body>
 
