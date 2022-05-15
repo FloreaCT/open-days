@@ -32,6 +32,20 @@ module.exports = {
         router.get("/manageUsers", authController.checkLoggedIn, dataController.getAllUsers)
         router.get("/manageAttenders", authController.checkLoggedIn, dataController.getAllAttenders)
         router.get("/logout", authController.postLogOut)
+        router.get("/updatePassword", function(req, res, next) {
+            res.render("auth/updatePassword", {
+                title: "Update Password Page",
+                token: req.query.token,
+                msg: ''
+            });
+        });
+        router.get("/resetPassword", function(req, res, next) {
+            res.render("auth/resetPassword", {
+                title: "Reset Password Page",
+                token: req.query.token,
+                msg: ''
+            });
+        });
 
         router.post("/book", dataController.submbitInterest)
         router.post("/addEvent", (imageController.upload, dataController.addEvent))
@@ -46,6 +60,8 @@ module.exports = {
         router.post("/findAttender", dataController.findAttender)
         router.post("/attender/delete", dataController.deleteAttender)
         router.post("/upload", imageController.upload.single('image'), imageController.image)
+        router.post('/resetPassword', authController.passwordRecovery)
+        router.post('/updatePassword', authController.passwordUpdate)
         router.post("/login", passport.authenticate('local', {
             successRedirect: "/profile",
             failureRedirect: "/login",

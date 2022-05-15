@@ -234,14 +234,12 @@ let editUser = function(req, res) {
             console.log(err);
         }
     });
-    if (req.body.roleId != 3) {
-        res.write(`<script>window.alert("User updated successfully!");window.location="/profile";</script>`)
-    } else {
-        res.write(
-            `<script>window.alert("User updated successfully!");window.location="/manageUsers";</script>`
-        );
-    }
-};
+
+    res.write(
+        `<script>window.alert("User updated successfully!");window.location="/manageUsers";</script>`
+    );
+}
+
 
 let deleteUser = function(req, res) {
     if (req.body.id.toString() === req.user.id.toString()) {

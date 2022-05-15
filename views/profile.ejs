@@ -21,56 +21,59 @@
                                         </h1>
 
                                     </div>
-                                    <form id="userForm" name="userForm" action="/users/edit/" method="POST">
-                                        <table class="table table-bordered formContainer" style="max-width: 40%; margin: 0 auto 0 auto">
-                                            <thead>
-                                                <tr>
-                                                    <th scope="col" style="text-align: center;" colspan="2">Profile Details</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <th scope="row">First Name</th>
-                                                    <td><input type="text" name="firstName" value="<%=user.firstName%>"></td>
 
-                                                </tr>
-                                                <tr>
-                                                    <th scope="row">Last Name</th>
-                                                    <td>
-                                                        <input type="text" name="lastName" value="<%=user.lastName%>"> </td>
+                                    <table class="table table-bordered formContainer" style="max-width: 40%; margin: 0 auto 0 auto">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col" style="text-align: center;" colspan="2">Profile Details</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <th scope="row">First Name</th>
+                                                <td>
+                                                    <%- user.firstName%>
+                                                </td>
 
-                                                </tr>
-                                                <tr>
-                                                    <th scope="row">Email</th>
-                                                    <td>
-                                                        <%- user.email%>
-                                                    </td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">Last Name</th>
+                                                <td>
+                                                    <%- user.lastName%>
+                                                </td>
 
-                                                </tr>
-                                                <tr>
-                                                    <th scope="row">Phone</th>
-                                                    <td>
-                                                        <%- user.phone%>
-                                                    </td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">Email</th>
+                                                <td>
+                                                    <%- user.email%>
+                                                </td>
 
-                                                </tr>
-                                                <tr>
-                                                    <th scope="row">City</th>
-                                                    <td><input type="text" name="city" value="<%=user.city%>"></td>
-                                                </tr>
-                                                <tr>
-                                                    <th scope="row">University</th>
-                                                    <td><input type="text" name="university" value="<%=user.university%>"></td>
-                                                </tr>
-                                                <input type="hidden" name="id" value="<%user.id%>">
-                                            </tbody>
-                                        </table>
-                                        <div class="center_text" style="color: black">
-                                            <button type="submit"><i class="bi bi-eye"></i>Edit Profile</button>
-                                        </div>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">Phone</th>
+                                                <td>
+                                                    <%- user.phone%>
+                                                </td>
+
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">City</th>
+                                                <td>
+                                                    <%- user.city%>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">University</th>
+                                                <td>
+                                                    <%- user.university%>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
                                 </div>
-                                </form>
-
+                                <div class="center_text" style="color: black">
+                                </div>
                                 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
                                 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
                                 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>

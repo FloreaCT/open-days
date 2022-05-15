@@ -16,10 +16,6 @@ module.exports = {
                     notEmpty: true
                 }
             },
-            uuid: {
-                type: DataTypes.UUID,
-                defaultValue: DataTypes.UUIDV4
-            },
             lastName: {
                 type: DataTypes.STRING,
                 allowNull: false,
@@ -72,6 +68,10 @@ module.exports = {
                     model: 'Roles',
                     key: 'id'
                 }
+            },
+            token: {
+                type: DataTypes.STRING,
+                allowNull: true
             },
             createdAt: {
                 allowNull: false,
