@@ -9,14 +9,14 @@ const Op = Sequelize.Op;
 const fs = require("fs");
 
 const deleteFile = async function(req, res) {
-    console.log(req.user.id);
+
     const fileToDelete = await db.myDatabase.query(
         `SELECT image FROM events WHERE userId = ${req.user.id}`
     );
     if (!fileToDelete[0][0] ||
         fileToDelete[0][0].image == "/images/banner_uni.jpg"
     ) {} else {
-        console.log(process.cwd());
+
         fs.unlink(
             `${
         __dirname.replace("controllers", "public") + fileToDelete[0][0].image
@@ -240,6 +240,26 @@ let editUser = function(req, res) {
     );
 }
 
+let deleteMyAccount = async function(req, res) {
+    console.log(req.user.id);
+    let query = `DELETE FROM users WHERE id = ${req.user.id}`
+    await db.myDatabase.query(query, function(err, data) {
+        if (err) {
+            console.log(err);
+        }
+    })
+    if (req.session) {
+        req.session.destroy(err => {
+            if (err) {
+                res.status(400).send('Unable to log out')
+            } else {
+                res.write(`<script>window.alert("Your account has been deleted successfully!");window.location="/";</script>`)
+            }
+        });
+    } else {
+        res.end()
+    }
+}
 
 let deleteUser = function(req, res) {
     if (req.body.id.toString() === req.user.id.toString()) {
@@ -378,4 +398,5 @@ module.exports = {
     deleteUser: deleteUser,
     findAttender: findAttender,
     deleteAttender: deleteAttender,
+    deleteMyAccount: deleteMyAccount
 };

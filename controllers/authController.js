@@ -50,6 +50,7 @@ let checkLoggedOut = (req, res, next) => {
 
 let postLogOut = (req, res) => {
     req.session.destroy(function(error) {
+        if (error) throw error
         return res.redirect('/')
     })
 }
@@ -126,9 +127,6 @@ let passwordRecovery = async function(req, res, next) {
         var type = ''
         var msg = ''
 
-
-        console.log(result[0].length);
-
         if (result[0].length > 0) {
 
             var token = randtoken.generate(20);
@@ -182,7 +180,7 @@ let passwordUpdate = async function(req, res, next) {
                     });
                 });
 
-                res.write(`<script>window.alert("Password change succesfully!");window.location="/";</script>`)
+                res.write(`<script>window.alert("Password change successfully!");window.location="/";</script>`)
 
             } else {
 

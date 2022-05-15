@@ -57,6 +57,7 @@ module.exports = {
         router.post("/findUser", dataController.findUser)
         router.post("/users/edit/", dataController.editUser);
         router.post("/users/delete/", dataController.deleteUser)
+        router.post("/deleteMyAccount", dataController.deleteMyAccount)
         router.post("/findAttender", dataController.findAttender)
         router.post("/attender/delete", dataController.deleteAttender)
         router.post("/upload", imageController.upload.single('image'), imageController.image)
