@@ -63,7 +63,7 @@ The website is comprise of 3 category of users:
 
     You should have a new folder created like the one showed bellow
 
-    ![Navigate to the newly created folder](assets/images/3.png "Navigate to the newly created folder")
+    ![Navigate to the newly created folder](assets/images/3.PNG "Navigate to the newly created folder")
 
     Open VS Code and add the folder inside like in this example [How to add a folder](#how-to-add-folder)
 
