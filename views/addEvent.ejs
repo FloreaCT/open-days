@@ -1,70 +1,84 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
+  <head>
     <%- include('partials/headers.ejs') %>
-        <link href="css/auth.css" rel="stylesheet" />
-        <title>Add event</title>
-</head>
+    <link href="css/auth.css" rel="stylesheet" />
+    <title>Add event</title>
+  </head>
 
-<body>
+  <body>
     <div class="top_navbar center_text">
-        <a href="/profile">Back to Profile</a>
+      <a href="/profile">Back to Profile</a>
     </div>
 
     <div>
-        <div class="error">
-            <% if(errors !=="") { %>
-                <% errors.forEach((item)=>{ %>
-                    <div class="alert">
-                        <%- item%>
-                    </div>
-                    <%})%>
-                        <%}%>
-        </div>
-        <form method="post" class="needs-validation" action="/addEvent" id="form" novalidate>
-            <div class="container formContainer">
-                <fieldset>
-                    <legend>
-                        <h1>Add a new event</h1>
-                    </legend>
+      <div class="error">
+        <% if(errors !=="") { %> <% errors.forEach((item)=>{ %>
+        <div class="alert"><%- item%></div>
+        <%})%> <%}%>
+      </div>
+      <form
+        method="post"
+        class="needs-validation"
+        action="/addEvent"
+        id="form"
+        novalidate
+      >
+        <div class="container formContainer">
+          <fieldset>
+            <legend>
+              <h1>Add a new event</h1>
+            </legend>
 
-                    <div class="group-input">
-                        <label for="title">Title of the event: </label>
-                        <input class="form-control" type="text" name="title" id="title" value="<%= form.title %>" required />
-                    </div>
-                    <div class="group-input">
-                        <label for="description">Event description: </label>
-                        <textarea class="form-control" name="description" id="description" value="<%= form.description %>" id="form" required></textarea>
-                    </div>
+            <div class="group-input">
+              <label for="title">Title of the event: </label>
+              <input
+                class="form-control"
+                type="text"
+                name="title"
+                id="title"
+                value="<%= form.title %>"
+                required
+              />
+            </div>
+            <div class="group-input">
+              <label for="description">Event description: </label>
+              <textarea
+                class="form-control"
+                name="description"
+                id="description"
+                value="<%= form.description %>"
+                id="form"
+                required
+              ></textarea>
+            </div>
 
-                    <div class="group-input">
-                        <label for="begin_at">Choose event start time: (<span style="color: red">*</span
-                >)</label
+            <div class="group-input">
+              <label for="begin_at"
+                >Choose event start time:
+                <span style="color: red">*</span></label
               >
               <input
                 class="form-control"
                 type="datetime-local"
                 name="begin_at"
                 id="begin_at"
-                min=""
-                onchange="setMaxTime()"
-                value="<% form.begin_at%>"
+                value="<%= form.begin_at ? form.begin_at.slice(0,16) : '' %>"
+                onchange="setMaxTime();"
                 required
               />
             </div>
+
             <div class="group-input">
               <label for="ends_at"
-                >Choose event end time: (<span style="color: red">*</span
-                >)</label
+                >Choose event end time: <span style="color: red">*</span></label
               >
               <input
                 class="form-control"
                 type="datetime-local"
                 name="ends_at"
                 id="ends_at"
-                value="<% form.ends_at%>"
-                onchange="return checkDate()"
+                value="<%= form.ends_at ? form.ends_at.slice(0,16) : '' %>"
                 required
               />
             </div>
@@ -99,27 +113,43 @@
     </script>
     <script>
       function checkDate() {
-        const begin_at = document.querySelector("#begin_at");
-        const ends_at = document.querySelector("#ends_at");
-        if (begin_at.value > ends_at.value) {
-          alert("Event end date/time cannot be lower than event begin time!");
-          var date = document.getElementById("ends_at");
-          date.value = null;
+        const beginAt = document.getElementById("begin_at").value;
+        const endsAt = document.getElementById("ends_at").value;
+        if (endsAt && beginAt && endsAt <= beginAt) {
+          alert("Event end date/time must be after the start date/time!");
+          return false;
         }
-        return false;
+        return true;
       }
     </script>
     <script>
-      const now = new Date();
-      const minDate = new Date(now.getTime() - now.getTimezoneOffset() * 60000)
-        .toISOString()
-        .substring(0, 19);
-      document.getElementById("begin_at").setAttribute("min", minDate);
+      (function () {
+        const now = new Date();
+        const offset = now.getTimezoneOffset() * 60000;
+        const localNow = new Date(now.getTime() - offset)
+          .toISOString()
+          .slice(0, 16);
+        document.getElementById("begin_at").min = localNow;
+      })();
     </script>
     <script>
       function setMaxTime() {
-        document.getElementById("ends_at").setAttribute("min", document.getElementById("begin_at").value);
+        const beginAt = document.getElementById("begin_at").value;
+        document.getElementById("ends_at").min = beginAt;
       }
+    </script>
+    <script>
+      document.getElementById("form").addEventListener(
+        "submit",
+        function (event) {
+          if (!this.checkValidity() || !checkDate()) {
+            event.preventDefault();
+            event.stopPropagation();
+          }
+          this.classList.add("was-validated");
+        },
+        false
+      );
     </script>
     <script href="js/script.js" type="text/js"></script>
   </body>
