@@ -1,6 +1,8 @@
 # open-days
 
-University project for Advanced Databases in order to demonstrate and apply full stack technologies.
+University project for Advanced Databases in order to demonstrate and apply full stack technologies. 
+
+Link to the working project: https://open-days.vercel.app/
 
 ## 1. About
 
